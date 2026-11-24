@@ -1,0 +1,33 @@
+{
+    "status": "SUCCESS",
+    "total_records_processed": 4,
+    "unique_product_keys": 3,
+    "record_type_breakdown": {
+        "demo": 4
+    },
+    "missing_values": {
+        "price_npr": 0,
+        "shipping_cost_npr": 0,
+        "rating": 0,
+        "review_count": 0,
+        "product_url": 0
+    },
+    "validation_metrics": {
+        "valid_urls_count": 4,
+        "valid_prices_count": 4,
+        "registered_platforms_count": 4
+    },
+    "duplicate_audit": {
+        "total_records": 4,
+        "duplicate_count": 0,
+        "unique_products_count": 3,
+        "multi_store_products_count": 1,
+        "duplicate_rate_percent": 0.0
+    },
+    "artifacts_generated": [
+        "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\cleaned_products.csv",
+        "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\price_comparison_summary.csv",
+        "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\products_ml_features.csv",
+        "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\reports\\data_quality_report.json"
+    ]
+}

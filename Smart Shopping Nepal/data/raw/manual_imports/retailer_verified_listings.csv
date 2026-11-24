@@ -1,0 +1,4 @@
+product_name,brand,model,category,variant,platform,price_npr,shipping_cost_npr,rating,review_count,product_url,image_url,availability_status,last_updated,data_source,verification_status
+Samsung Galaxy A56 5G,Samsung,Galaxy A56,Mobile Phone,8GB/256GB,Hukut Store,43700.0,100.0,4.8,95,https://hukut.com/products/samsung-galaxy-a56-8-256,https://hukut.com/media/samsung-a56.png,in_stock,2026-11-24T10:30:00Z,manual_import,verified_manual
+HP Pavilion 15,HP,Pavilion,Laptop,16GB/512GB,Hukut Store,84900.0,0.0,4.4,22,https://hukut.com/products/hp-pavilion-15-16-512,https://hukut.com/media/hp-pavilion.png,in_stock,2026-11-24T10:30:00Z,manual_import,verified_manual
+Anker Soundcore Earbuds,Anker,Soundcore R50i,Earbuds,Standard,Oliz Store,3350.0,150.0,4.7,115,https://olizstore.com/products/anker-soundcore-r50i,https://olizstore.com/images/anker.jpg,in_stock,2026-11-24T11:00:00Z,manual_import,verified_manual

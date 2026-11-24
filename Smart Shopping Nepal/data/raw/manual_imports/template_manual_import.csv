@@ -1,0 +1,3 @@
+product_name,brand,model,category,variant,platform,price_npr,shipping_cost_npr,rating,review_count,product_url,image_url,availability_status,last_updated,data_source,verification_status
+# INSTRUCTIONS: Fill in real verified products below. Do not use 0 for unknown prices (leave blank). Do not invent ratings.
+Samsung Galaxy A56,Samsung,Galaxy A56,Mobile Phone,8GB/256GB,Daraz Nepal,44999,0,4.6,142,https://www.daraz.com.np/products/samsung-galaxy-a56-8gb-256gb,https://images.daraz.com.np/samsung-a56.jpg,in_stock,2026-11-24T12:00:00Z,manual_import,verified_manual

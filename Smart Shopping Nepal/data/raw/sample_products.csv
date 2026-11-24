@@ -1,0 +1,4 @@
+product_name,category,brand,model,variant,platform,price_npr,shipping_cost_npr,rating,review_count,product_url,product_name_clean,category_clean,brand_clean,model_clean,variant_clean,product_key
+Samsung Galaxy A56,Mobile Phone,Samsung,Galaxy A56,8GB/256GB,,,,,,,samsung galaxy a56,mobile phone,samsung,galaxy a56,8gb/256gb,samsung_galaxy a56_8gb/256gb
+HP Laptop,Laptop,HP,Pavilion,16GB/512GB,,,,,,,hp laptop,laptop,hp,pavilion,16gb/512gb,hp_pavilion_16gb/512gb
+Wireless Earbuds,Earbuds,Example Brand,Example Model,Standard,,,,,,,wireless earbuds,earbuds,example brand,example model,standard,example brand_example model_standard
