@@ -1,5 +1,10 @@
-product_name,cheapest_store,total_price_npr,number_of_stores,saving_npr,saving_percent
-Samsung Galaxy A56 5G,Hukut Store,43800.0,3,1200.0,2.67
-HP Pavilion 15,Hukut Store,84900.0,3,1850.0,2.13
-Anker Soundcore Earbuds,Oliz Store,3500.0,2,49.0,1.38
-Wireless Earbuds,Demo Store C,3600.0,1,0.0,0.0
+product_name,product_key,brand,category,cheapest_store,lowest_total_price,highest_total_price,average_total_price,total_price_npr,number_of_stores,saving_npr,saving_percent,record_type
+Samsung Galaxy A56 5G,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,Hukut Store,43800.0,44999.0,44399.5,43800.0,2,1199.0,2.66,real
+HP Pavilion 15,hp_pavilion_15_16gb_512gb,HP,Laptop,Hukut Store,84900.0,86750.0,85825.0,84900.0,2,1850.0,2.13,real
+Anker Soundcore Earbuds,anker_soundcore_earbuds_standard,Anker,Earbuds,Oliz Store,3500.0,3549.0,3524.5,3500.0,2,49.0,1.38,real
+Samsung Galaxy A56,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,No Price Available,,,,,0,0.0,0.0,sample
+HP Laptop,hp_pavilion_16gb_512gb,HP,Laptop,No Price Available,,,,,0,0.0,0.0,sample
+Wireless Earbuds,example_brand_example_model_standard,Example Brand,Earbuds,No Price Available,,,,,0,0.0,0.0,sample
+Samsung Galaxy A56,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,Demo Store A,45000.0,45000.0,45000.0,45000.0,1,0.0,0.0,demo
+HP Laptop,hp_pavilion_16gb_512gb,HP,Laptop,Demo Store B,85200.0,85200.0,85200.0,85200.0,1,0.0,0.0,demo
+Wireless Earbuds,example_brand_example_model_standard,Example Brand,Earbuds,Demo Store C,3600.0,3600.0,3600.0,3600.0,1,0.0,0.0,demo

@@ -1,0 +1,13 @@
+product_name,product_key,brand,category,platform,price_npr,shipping_cost_npr,is_shipping_known,total_price_npr,rating,review_count,product_url,availability_status,record_type,last_updated
+Samsung Galaxy A56,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,Daraz Nepal,44999.0,0.0,True,44999.0,4.6,142.0,https://www.daraz.com.np/products/samsung-galaxy-a56-i12345.html,in_stock,real,2026-11-24T10:00:00Z
+HP Pavilion 15 Laptop,hp_pavilion_15_16gb_512gb,HP,Laptop,Daraz Nepal,86500.0,250.0,True,86750.0,4.3,38.0,https://www.daraz.com.np/products/hp-pavilion-15-16gb-512gb-i23456.html,in_stock,real,2026-11-24T10:00:00Z
+Anker Soundcore Earbuds,anker_soundcore_earbuds_standard,Anker,Earbuds,Daraz Nepal,3499.0,50.0,True,3549.0,4.5,210.0,https://www.daraz.com.np/products/anker-soundcore-r50i-i34567.html,in_stock,real,2026-11-24T10:00:00Z
+Samsung Galaxy A56 5G,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,Hukut Store,43700.0,100.0,True,43800.0,4.8,95.0,https://hukut.com/products/samsung-galaxy-a56-8-256,in_stock,real,2026-11-24T10:30:00Z
+HP Pavilion 15,hp_pavilion_15_16gb_512gb,HP,Laptop,Hukut Store,84900.0,0.0,True,84900.0,4.4,22.0,https://hukut.com/products/hp-pavilion-15-16-512,in_stock,real,2026-11-24T10:30:00Z
+Anker Soundcore Earbuds,anker_soundcore_earbuds_standard,Anker,Earbuds,Oliz Store,3350.0,150.0,True,3500.0,4.7,115.0,https://olizstore.com/products/anker-soundcore-r50i,in_stock,real,2026-11-24T11:00:00Z
+Samsung Galaxy A56,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,,,,False,,,,,,sample,
+HP Laptop,hp_pavilion_16gb_512gb,HP,Laptop,,,,False,,,,,,sample,
+Wireless Earbuds,example_brand_example_model_standard,Example Brand,Earbuds,,,,False,,,,,,sample,
+Samsung Galaxy A56,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,Demo Store A,45000.0,0.0,True,45000.0,4.5,,,,demo,
+HP Laptop,hp_pavilion_16gb_512gb,HP,Laptop,Demo Store B,85000.0,200.0,True,85200.0,4.2,,,,demo,
+Wireless Earbuds,example_brand_example_model_standard,Example Brand,Earbuds,Demo Store C,3500.0,100.0,True,3600.0,4.0,,,,demo,

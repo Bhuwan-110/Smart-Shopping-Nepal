@@ -1,7 +1,7 @@
 {
     "collection_status": "COMPLETED",
-    "start_time": "2026-11-24T15:07:59.666020+00:00",
-    "end_time": "2026-11-24T15:07:59.675089+00:00",
+    "start_time": "2026-11-24T16:08:48.661845+00:00",
+    "end_time": "2026-11-24T16:08:48.710071+00:00",
     "total_connectors_run": 2,
     "total_records_attempted": 9,
     "total_records_collected": 9,
@@ -16,8 +16,8 @@
             "total_attempted": 6,
             "total_collected": 6,
             "total_failed": 0,
-            "start_time": "2026-11-24T15:07:59.666030+00:00",
-            "end_time": "2026-11-24T15:07:59.669864+00:00",
+            "start_time": "2026-11-24T16:08:48.661886+00:00",
+            "end_time": "2026-11-24T16:08:48.683411+00:00",
             "message": "Collected 6 records with 0 failures from Manual Verified Import.",
             "failures": []
         },
@@ -28,8 +28,8 @@
             "total_attempted": 3,
             "total_collected": 3,
             "total_failed": 0,
-            "start_time": "2026-11-24T15:07:59.669876+00:00",
-            "end_time": "2026-11-24T15:07:59.671787+00:00",
+            "start_time": "2026-11-24T16:08:48.683457+00:00",
+            "end_time": "2026-11-24T16:08:48.693392+00:00",
             "message": "Collected 3 records with 0 failures from Daraz Nepal.",
             "failures": []
         }
@@ -37,8 +37,8 @@
     "deduplication_audit": {
         "total_records": 9,
         "duplicate_count": 3,
-        "unique_products_count": 3,
-        "multi_store_products_count": 3,
+        "unique_products_count": 4,
+        "multi_store_products_count": 2,
         "duplicate_rate_percent": 33.33
     },
     "output_filepath": "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\raw\\collected_listings.csv"

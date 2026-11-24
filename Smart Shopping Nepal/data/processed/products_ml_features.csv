@@ -1,10 +1,10 @@
 product_key,product_name,brand,category,model,variant,ml_feature_text,price_npr,log_price_npr,rating,review_count,has_rating,has_price,record_type
 samsung_galaxy_a56_8gb_256gb,Samsung Galaxy A56,Samsung,Mobile Phone,Galaxy A56,8GB/256GB,mobile phone samsung galaxy a56 8gb/256gb samsung galaxy a56,44999.0,10.714417768752456,4.6,142.0,1,1,real
-hp_pavilion_16gb_512gb,HP Pavilion Laptop,HP,Laptop,Pavilion,16GB/512GB,laptop hp pavilion 16gb/512gb hp pavilion laptop,86500.0,11.367911253546788,4.3,38.0,1,1,real
-anker_soundcore_r50i_standard,Anker Soundcore Earbuds,Anker,Earbuds,Soundcore R50i,Standard,earbuds anker soundcore r50i standard anker soundcore earbuds,3499.0,8.160518247477505,4.5,210.0,1,1,real
+hp_pavilion_15_16gb_512gb,HP Pavilion 15 Laptop,HP,Laptop,Pavilion 15,16GB/512GB,laptop hp pavilion 15 16gb/512gb hp pavilion 15 laptop,86500.0,11.367911253546788,4.3,38.0,1,1,real
+anker_soundcore_earbuds_standard,Anker Soundcore Earbuds,Anker,Earbuds,Soundcore Earbuds,Standard,earbuds anker soundcore earbuds standard anker soundcore earbuds,3499.0,8.160518247477505,4.5,210.0,1,1,real
 samsung_galaxy_a56_8gb_256gb,Samsung Galaxy A56 5G,Samsung,Mobile Phone,Galaxy A56,8GB/256GB,mobile phone samsung galaxy a56 8gb/256gb samsung galaxy a56 5g,43700.0,10.685126264117057,4.8,95.0,1,1,real
-hp_pavilion_16gb_512gb,HP Pavilion 15,HP,Laptop,Pavilion,16GB/512GB,laptop hp pavilion 16gb/512gb hp pavilion 15,84900.0,11.349241150793087,4.4,22.0,1,1,real
-anker_soundcore_r50i_standard,Anker Soundcore Earbuds,Anker,Earbuds,Soundcore R50i,Standard,earbuds anker soundcore r50i standard anker soundcore earbuds,3350.0,8.11701408773731,4.7,115.0,1,1,real
+hp_pavilion_15_16gb_512gb,HP Pavilion 15,HP,Laptop,Pavilion 15,16GB/512GB,laptop hp pavilion 15 16gb/512gb hp pavilion 15,84900.0,11.349241150793087,4.4,22.0,1,1,real
+anker_soundcore_earbuds_standard,Anker Soundcore Earbuds,Anker,Earbuds,Soundcore Earbuds,Standard,earbuds anker soundcore earbuds standard anker soundcore earbuds,3350.0,8.11701408773731,4.7,115.0,1,1,real
 samsung_galaxy_a56_8gb_256gb,Samsung Galaxy A56,Samsung,Mobile Phone,Galaxy A56,8GB/256GB,mobile phone samsung galaxy a56 8gb/256gb samsung galaxy a56,,,,,0,0,sample
 hp_pavilion_16gb_512gb,HP Laptop,HP,Laptop,Pavilion,16GB/512GB,laptop hp pavilion 16gb/512gb hp laptop,,,,,0,0,sample
 example_brand_example_model_standard,Wireless Earbuds,Example Brand,Earbuds,Example Model,Standard,earbuds example brand example model standard wireless earbuds,,,,,0,0,sample
