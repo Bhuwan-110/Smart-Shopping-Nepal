@@ -33,20 +33,28 @@ SmartShopping Nepal is a product price comparison and recommendation system desi
   - `comparator.py`: Landed cost calculation, multi-store comparison, and savings math
   - `ml_preparer.py`: Feature engineering for machine learning and recommendation models
   - `pipeline.py`: End-to-end data processing pipeline orchestrator
+  - `collectors/`:
+    - `base.py`: Abstract BaseConnector with strict schema validation & failure tracking
+    - `manual_import.py`: Authorized manual CSV/JSON import connector
+    - `daraz.py`: Daraz Open Platform API connector with ToS compliance safeguards
+    - `partner_feed.py`: Direct merchant partner feed connector under written agreements
+    - `manager.py`: CollectionManager coordinating multi-platform collection & audit logging
+- `data/raw/manual_imports/` — Standardized manual import templates & verified store feeds
 - `models/` — Saved machine learning models & serialization artifacts
-- `reports/` — Analysis, evaluation, and data quality reports (`data_quality_report.json`)
-- `tests/` — Automated unit and integration test suite (`test_pipeline.py`)
-- `main.py` — Application entry point running the full Phase 1 processing pipeline
+- `reports/` — Analysis, evaluation, data quality, and collection audit reports
+- `tests/` — Automated unit and integration test suite (`test_pipeline.py`, `test_collection.py`)
+- `main.py` — Application entry point running the full collection and comparison pipeline
 
 ## Data Policy
-Product data will be collected from authorized APIs, partner feeds, permitted sources, or manually verified listings. Demo data will be clearly identified as demo data.
+Product data will be collected strictly from authorized APIs, partner feeds, permitted sources, or manually verified listings. Automated scraping without express written permission is strictly prohibited. Demo and sample data are clearly distinguished from verified merchant listings.
 
 ## Project Status
 - **Phase 0 — Project Audit & Architectural Baseline**: Completed.
 - **Phase 1 — Data Processing Pipeline**: Completed.
-  - Reusable loader, cleaner, validator, deduplicator, key generator, and ML feature preparer implemented in `src/`.
-  - Strict data rules enforced: blank prices are never treated as zero, missing ratings/reviews are never invented, record types (`sample`, `demo`, `verified`, `real`) are strictly classified.
-  - Processed artifacts generated in `data/processed/` (`cleaned_products.csv`, `price_comparison_summary.csv`, `products_ml_features.csv`).
-  - Data quality audit generated in `reports/data_quality_report.json`.
-  - Comprehensive unit test suite implemented in `tests/test_pipeline.py` (6/6 passing).
-  - Raw datasets preserved completely intact.
+- **Phase 2 — Product Data Collection System**: Completed.
+  - Reusable platform connectors (`BaseConnector`, `ManualImportConnector`, `DarazConnector`, `PartnerFeedConnector`) and `CollectionManager` implemented.
+  - Platform compliance verified in `data/raw/source_registry.csv` with anti-scraping safeguards.
+  - Full collection audit trail generated in `reports/collection_audit.json` with failure tracking and timestamps.
+  - Standardized manual import templates and verified store feeds created under `data/raw/manual_imports/`.
+  - Integrated with Phase 1 pipeline, computing multi-store comparisons across Daraz Nepal, Hukut Store, and Oliz Store.
+  - Comprehensive automated test suite passing (11/11 tests passing across `test_pipeline.py` and `test_collection.py`).
