@@ -18,7 +18,19 @@ SECRET_KEY = os.getenv(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',') if not DEBUG else ['*']
+
+# Production Security Hardening
+if not DEBUG:
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+    CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'True').lower() in ('true', '1')
+    SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'True').lower() in ('true', '1')
+    SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'False').lower() in ('true', '1')
+    SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '0'))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
 
 # Application definition
 INSTALLED_APPS = [
@@ -64,11 +76,29 @@ TEMPLATES = [
 WSGI_APPLICATION = 'smart_shopping_web.wsgi.application'
 
 # Database Configuration:
-# Uses PostgreSQL if USE_POSTGRES is set or connection parameters exist;
-# otherwise falls back seamlessly to SQLite for local development.
+# Supports PostgreSQL via DATABASE_URL or individual DB_* variables;
+# falls back seamlessly to SQLite for local development.
+DATABASE_URL = os.getenv('DATABASE_URL')
 USE_POSTGRES = os.getenv('USE_POSTGRES', 'False').lower() in ('true', '1', 'yes')
 
-if USE_POSTGRES:
+if DATABASE_URL:
+    try:
+        import dj_database_url
+        DATABASES = {'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)}
+    except Exception:
+        import urllib.parse
+        url = urllib.parse.urlparse(DATABASE_URL)
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': url.path[1:],
+                'USER': url.username,
+                'PASSWORD': url.password,
+                'HOST': url.hostname,
+                'PORT': str(url.port or '5432'),
+            }
+        }
+elif USE_POSTGRES:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',

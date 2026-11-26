@@ -23,11 +23,27 @@ from sklearn.metrics.pairwise import cosine_similarity
 from src.cleaner import clean_text, standardize_brand, standardize_category
 from src.keygen import generate_product_key
 
-# Known brands in Nepalese consumer electronics
+# Known brands in Nepalese consumer markets across all 15 sectors
 KNOWN_BRANDS = [
+    # Electronics, Mobiles, Computers & Audio
     "samsung", "apple", "hp", "dell", "lenovo", "asus", "acer", "xiaomi",
     "redmi", "realme", "oneplus", "sony", "boat", "noise", "anker", "honor",
-    "vivo", "oppo", "poco", "google", "huawei", "msi", "infinix", "example brand"
+    "vivo", "oppo", "poco", "google", "huawei", "msi", "infinix", "logitech",
+    "sandisk", "baseus", "tp-link", "belkin", "spigen", "remax", "western digital",
+    # Home Appliances
+    "lg", "cg", "philips", "baltra", "yasuda", "midea", "panasonic", "whirlpool",
+    # Fashion, Footwear & Accessories
+    "goldstar", "caliber", "adidas", "nike", "puma", "levi's", "levis", "zara",
+    "h&m", "erke", "fastrack", "titan", "ray-ban", "wildhorn", "baggit", "peter england", "biba",
+    # Beauty & Personal Care
+    "cetaphil", "the derma co", "nivea", "mamaearth", "l'oreal", "himalaya",
+    # Furniture & Home
+    "nilkamal", "solimo", "kurl-on", "cortina",
+    # Sports & Fitness
+    "yonex", "cosco", "nivia", "strauss", "decathlon",
+    # Books & Stationery
+    "doms", "classmate", "penguin", "fineprint", "ratna pustak",
+    "example brand"
 ]
 
 # Condition indicators
@@ -193,20 +209,68 @@ class ProductAttributeExtractor:
         return "Generic"
 
     @staticmethod
+    def extract_size_and_color(title: str, existing_variant: Optional[str] = None) -> Tuple[Optional[str], Optional[str]]:
+        """Extracts clothing/footwear sizes and primary colors."""
+        t_clean = clean_text(title)
+        v_clean = clean_text(existing_variant or "")
+        combined = f"{t_clean} {v_clean}"
+
+        # 1. Footwear & Apparel Sizes
+        size_match = re.search(r"\b(?:uk|size|us)\s*(\d{1,2}(?:\.\d)?)\b", combined)
+        if not size_match:
+            size_match = re.search(r"\b(xxl|2xl|3xl|xl|xs|[sml])\b", combined)
+        if not size_match:
+            size_match = re.search(r"\b(?:size\s+)?(2[89]|3[0-8]|4[02])\b", combined)
+
+        size = size_match.group(0).upper() if size_match else None
+
+        # 2. Colors
+        colors = ["black", "white", "navy", "blue", "grey", "gray", "red", "green", "olive", "maroon", "teal", "yellow", "gold", "silver", "brown", "beige", "cream"]
+        found_color = None
+        for c in colors:
+            if re.search(r"\b" + c + r"\b", combined):
+                found_color = c.capitalize()
+                break
+
+        return size, found_color
+
+    @staticmethod
     def extract_category(title: str, existing_cat: Optional[str] = None) -> str:
-        """Infers category from title keywords or standardizes existing."""
+        """Infers category across all 15 sectors (A-O) or standardizes existing."""
         if existing_cat and pd.notna(existing_cat) and str(existing_cat).strip():
             return standardize_category(existing_cat)
 
         t_clean = clean_text(title)
-        if any(w in t_clean for w in ["phone", "smartphone", "galaxy a", "galaxy s", "iphone", "redmi", "realme"]):
-            return "Mobile Phone"
-        if any(w in t_clean for w in ["laptop", "pavilion", "notebook", "ideapad", "macbook", "zenbook", "thinkpad"]):
-            return "Laptop"
-        if any(w in t_clean for w in ["earbuds", "earphone", "headphone", "soundcore", "airpods", "airdopes", "tws"]):
-            return "Earbuds"
-        if any(w in t_clean for w in ["watch", "smartwatch", "band"]):
-            return "Smartwatch"
+        if any(w in t_clean for w in ["phone", "smartphone", "galaxy a", "galaxy s", "iphone", "redmi", "realme", "pixel"]):
+            return "Mobile Phones"
+        if any(w in t_clean for w in ["laptop", "pavilion", "notebook", "ideapad", "macbook", "zenbook", "thinkpad", "nitro", "legion"]):
+            return "Laptops and Computers"
+        if any(w in t_clean for w in ["charger", "adapter", "power bank", "case", "cover", "cable", "powercore"]):
+            return "Mobile Accessories"
+        if any(w in t_clean for w in ["mouse", "keyboard", "webcam", "portable ssd", "external hdd", "router", "usb hub"]):
+            return "Computer Accessories"
+        if any(w in t_clean for w in ["earbuds", "earphone", "headphone", "soundcore", "airpods", "airdopes", "tws", "speaker", "watch", "smartwatch", "band"]):
+            return "Audio and Wearables"
+        if any(w in t_clean for w in ["polo", "shirt", "chino", "trousers", "track jacket"]):
+            return "Men's Clothing"
+        if any(w in t_clean for w in ["kurti", "kurta", "anarkali", "blazer", "dress", "saree"]):
+            return "Women's Clothing"
+        if any(w in t_clean for w in ["romper", "toddler", "baby boy", "baby girl", "kids"]):
+            return "Kids' Clothing"
+        if any(w in t_clean for w in ["shoes", "sneaker", "boots", "trekker", "running shoes", "footwear"]):
+            return "Footwear"
+        if any(w in t_clean for w in ["sunglasses", "wallet", "handbag", "analog watch", "belt"]):
+            return "Fashion Accessories"
+        if any(w in t_clean for w in ["washing machine", "refrigerator", "rice cooker", "mixer grinder", "led tv", "microwave", "air conditioner"]):
+            return "Home Appliances"
+        if any(w in t_clean for w in ["cleanser", "serum", "cream", "shampoo", "conditioner", "face wash"]):
+            return "Beauty and Personal Care"
+        if any(w in t_clean for w in ["office chair", "dining table", "computer desk", "mattress", "curtains"]):
+            return "Furniture and Home"
+        if any(w in t_clean for w in ["badminton", "racket", "volley ball", "football", "yoga mat", "dumbbell"]):
+            return "Sports and Fitness"
+        if any(w in t_clean for w in ["book", "novel", "notebook", "pencils", "stationery"]):
+            return "Books and Stationery"
 
         return "General"
 
@@ -219,6 +283,10 @@ class ProductAttributeExtractor:
         model = cls.extract_model(title, rec.get("model"))
         ram, storage, variant = cls.extract_ram_and_storage(title, rec.get("variant"))
         condition = cls.extract_condition(title)
+        size, color = cls.extract_size_and_color(title, rec.get("variant"))
+
+        if category in ["Men's Clothing", "Women's Clothing", "Kids' Clothing", "Footwear"] and size:
+            variant = f"{size} {color or ''}".strip()
 
         # Generate canonical product key
         product_key = generate_product_key(brand, model, variant)
@@ -232,6 +300,8 @@ class ProductAttributeExtractor:
             "extracted_ram": ram,
             "extracted_storage": storage,
             "extracted_variant": variant,
+            "extracted_size": size,
+            "extracted_color": color,
             "extracted_condition": condition,
             "canonical_product_key": product_key
         }
@@ -246,6 +316,97 @@ class IntelligentProductMatcher:
     def __init__(self, tfidf_threshold: float = 0.50):
         self.tfidf_threshold = tfidf_threshold
         self.extractor = ProductAttributeExtractor()
+
+    def classify_match_tier(
+        self,
+        listing1: Dict[str, Any],
+        listing2: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        Classifies two product listings into 4 confidence tiers:
+        - Exact Match (1.0): Identical brand, category, condition, model, and variant.
+        - Probable Match (0.85–0.95): Identical brand, category, condition, and model; standard or compatible variant.
+        - Similar Product (0.60–0.84): Same category and brand, but different variant or same series.
+        - Unmatched Product (<0.60): Brand/category/condition mismatch, or distinct products.
+        """
+        t1 = str(listing1.get("product_name", ""))
+        t2 = str(listing2.get("product_name", ""))
+        attr1 = self.extractor.extract_all(t1, listing1)
+        attr2 = self.extractor.extract_all(t2, listing2)
+
+        # Compute TF-IDF text similarity independently of hard gates
+        def _strip_marketing(text: str) -> str:
+            cleaned = clean_text(text)
+            for noise in ["smartphone", "mobile", "official", "warranty", "laptop", "earbuds", "tws", "original", "black", "awesome", "graphite"]:
+                cleaned = re.sub(r"\b" + noise + r"\b", "", cleaned)
+            return cleaned.strip()
+
+        core_t1 = _strip_marketing(t1) or clean_text(t1)
+        core_t2 = _strip_marketing(t2) or clean_text(t2)
+        try:
+            vectorizer = TfidfVectorizer(token_pattern=r"(?u)\b\w+\b")
+            tfidf_matrix = vectorizer.fit_transform([core_t1, core_t2])
+            text_sim = float(cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0])
+        except Exception:
+            text_sim = 0.0
+
+        is_equiv, score, reason = self.are_products_equivalent(listing1, listing2)
+
+        # 1. Exact Match (1.0)
+        if (
+            is_equiv
+            and attr1["canonical_product_key"] == attr2["canonical_product_key"]
+            and attr1["extracted_variant"].lower() == attr2["extracted_variant"].lower()
+        ):
+            return {
+                "tier": "Exact Match",
+                "confidence": 1.0,
+                "is_match": True,
+                "reason": f"Exact attribute and canonical key match: {attr1['canonical_product_key']}",
+                "canonical_product_key": attr1["canonical_product_key"],
+                "score": 1.0
+            }
+
+        # 2. Probable Match (0.85–0.95)
+        if is_equiv:
+            confidence = max(0.85, min(0.95, round(score, 2)))
+            return {
+                "tier": "Probable Match",
+                "confidence": confidence,
+                "is_match": True,
+                "reason": reason,
+                "canonical_product_key": attr1["canonical_product_key"],
+                "score": confidence
+            }
+
+        # 3. Similar Product (0.60–0.84)
+        same_brand = attr1["extracted_brand"].lower() == attr2["extracted_brand"].lower()
+        same_cat = attr1["extracted_category"].lower() == attr2["extracted_category"].lower()
+        m1 = clean_text(attr1["extracted_model"])
+        m2 = clean_text(attr2["extracted_model"])
+        same_model = (m1 == m2 and m1 != "generic")
+        
+        if same_brand and same_cat and (same_model or text_sim >= 0.50):
+            similar_conf = max(0.60, min(0.84, round(max(text_sim, 0.70 if same_model else 0.60), 2)))
+            return {
+                "tier": "Similar Product",
+                "confidence": similar_conf,
+                "is_match": False,
+                "reason": f"Similar product in same category and brand ({attr1['extracted_brand']}), variant/spec divergence ({reason}).",
+                "canonical_product_key": None,
+                "score": similar_conf
+            }
+
+        # 4. Unmatched Product (<0.60)
+        unmatched_conf = round(min(text_sim, 0.59), 2)
+        return {
+            "tier": "Unmatched Product",
+            "confidence": unmatched_conf,
+            "is_match": False,
+            "reason": reason,
+            "canonical_product_key": None,
+            "score": unmatched_conf
+        }
 
     def are_products_equivalent(
         self,
@@ -274,7 +435,10 @@ class IntelligentProductMatcher:
             return False, 0.0, f"Brand mismatch: {attr1['extracted_brand']} != {attr2['extracted_brand']}"
 
         # 2. Hard Gate: Category
-        if attr1["extracted_category"].lower() != attr2["extracted_category"].lower():
+        # Allow compatible category names (e.g. 'Mobile Phone' vs 'Mobile Phones')
+        c1 = clean_text(attr1["extracted_category"]).rstrip("s")
+        c2 = clean_text(attr2["extracted_category"]).rstrip("s")
+        if c1 != c2:
             return False, 0.0, f"Category mismatch: {attr1['extracted_category']} != {attr2['extracted_category']}"
 
         # 3. Hard Gate: Condition (Never match New with Used/Refurbished!)
@@ -290,6 +454,18 @@ class IntelligentProductMatcher:
         # 5. Hard Gate: Variant / Specifications (Storage & RAM)
         v1 = clean_text(attr1["extracted_variant"])
         v2 = clean_text(attr2["extracted_variant"])
+        
+        # Check storage/RAM explicit conflict
+        s1 = attr1.get("extracted_storage")
+        s2 = attr2.get("extracted_storage")
+        if s1 and s2 and s1 != s2:
+            return False, 0.0, f"Storage mismatch: {s1} != {s2}"
+
+        r1 = attr1.get("extracted_ram")
+        r2 = attr2.get("extracted_ram")
+        if r1 and r2 and r1 != r2:
+            return False, 0.0, f"RAM mismatch: {r1} != {r2}"
+
         if v1 != v2 and v1 != "standard" and v2 != "standard":
             return False, 0.0, f"Variant/Spec mismatch: {v1} != {v2}"
 
@@ -316,6 +492,11 @@ class IntelligentProductMatcher:
         if m1 == m2 and m1 != "generic" and v1 == v2:
             final_score = max(score, 0.95)
             return True, final_score, f"Equivalent match on attributes and canonical key: {attr1['canonical_product_key']}"
+
+        # Compatible variant (one standard, one color/empty) with matching model
+        if m1 == m2 and m1 != "generic" and (v1 == v2 or v1 == "standard" or v2 == "standard"):
+            final_score = max(score, 0.90)
+            return True, final_score, f"Equivalent match on model and compatible variant: {attr1['canonical_product_key']}"
 
         # Standard models with matching brand & category
         if m1 == m2 and v1 == v2 and score >= self.tfidf_threshold:

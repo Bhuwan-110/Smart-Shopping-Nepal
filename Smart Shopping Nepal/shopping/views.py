@@ -8,6 +8,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.db.models import Q, Min, Max, Avg, Count
 from django.http import HttpRequest, HttpResponse, JsonResponse
 
@@ -46,9 +47,22 @@ def home_view(request: HttpRequest) -> HttpResponse:
 
     recent_products = products.order_by('-created_at')[:8]
 
+    # Precomputed AI recommendations for Homepage
+    recommendations = RecommendationResult.objects.select_related(
+        'source_product', 'recommended_product'
+    ).order_by('-similarity_score')[:4]
+
+    # Recent store updates
+    recent_updates = ProductListing.objects.filter(
+        availability_status='in_stock',
+        price_npr__gt=0
+    ).select_related('product', 'store').order_by('-last_updated')[:6]
+
     context = {
         'deal_products': deal_products[:6],
         'recent_products': recent_products,
+        'recommendations': recommendations,
+        'recent_updates': recent_updates,
         'categories': categories,
         'stores': stores,
         'total_products': products.count(),
@@ -105,12 +119,20 @@ def product_search_view(request: HttpRequest) -> HttpResponse:
         products = products.order_by('-min_price')
     elif sort_by == 'name':
         products = products.order_by('name')
+    else:
+        products = products.order_by('-created_at', 'id')
 
     all_categories = Product.objects.values_list('category', flat=True).distinct().order_by('category')
     all_brands = Product.objects.values_list('brand', flat=True).distinct().order_by('brand')
 
+    total_results = products.count()
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'products': products,
+        'products': page_obj,
+        'page_obj': page_obj,
         'query': query,
         'selected_category': selected_category,
         'selected_brand': selected_brand,
@@ -119,7 +141,7 @@ def product_search_view(request: HttpRequest) -> HttpResponse:
         'sort_by': sort_by,
         'all_categories': all_categories,
         'all_brands': all_brands,
-        'total_results': products.count(),
+        'total_results': total_results,
     }
     return render(request, 'shopping/search.html', context)
 
@@ -138,14 +160,20 @@ def category_list_view(request: HttpRequest) -> HttpResponse:
 
 def category_detail_view(request: HttpRequest, category_name: str) -> HttpResponse:
     """Module 3b: Category products view."""
-    products = Product.objects.filter(category__iexact=category_name).prefetch_related('listings')
+    products = Product.objects.filter(category__iexact=category_name).prefetch_related('listings', 'listings__store').order_by('-created_at', 'id')
     brands = products.values_list('brand', flat=True).distinct()
+    total_count = products.count()
+
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
 
     context = {
         'category_name': category_name,
-        'products': products,
+        'products': page_obj,
+        'page_obj': page_obj,
         'brands': brands,
-        'total_count': products.count()
+        'total_count': total_count
     }
     return render(request, 'shopping/category_detail.html', context)
 

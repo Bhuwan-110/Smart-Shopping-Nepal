@@ -1,33 +1,44 @@
 {% extends 'base.html' %}
 {% load humanize %}
 
-{% block title %}SmartShopping Nepal | Compare Online Store Prices & Save{% endblock %}
+{% block title %}SmartShopping Nepal | Compare Online Store Prices & True Landed Costs in Nepal{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<div class="hero-section mb-5 rounded-3 mx-2 mx-md-0 shadow">
-    <div class="container text-center py-4">
-        <span class="badge bg-primary px-3 py-2 rounded-pill mb-3 text-uppercase fw-bold letter-spacing-1">
-            <i class="fa-solid fa-bolt me-1"></i> Smarter Shopping for Nepal
+<!-- Search-Focused Hero Section -->
+<div class="hero-wrapper text-center mx-2 mx-md-0 mb-5">
+    <div class="container py-2">
+        <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill mb-3 text-uppercase fw-bold">
+            <i class="fa-solid fa-bolt me-1 text-warning"></i> Nepal's Independent Price Comparison Engine
         </span>
-        <h1 class="display-5 fw-bold mb-3">Compare Prices Across Top Nepal Online Stores</h1>
-        <p class="lead text-slate-300 mx-auto mb-4" style="max-width: 680px;">
-            Don't overpay. We compare true landed costs—including delivery charges—across Daraz, Hukut, Oliz Store, and authorized retailers.
+        <h1 class="hero-title">Compare Prices Across Top Nepal Online Stores</h1>
+        <p class="hero-subtitle">
+            Don't overpay. We compare true landed costs—including delivery charges—across Daraz Nepal, Hukut Store, Oliz Store, and authorized Nepali retailers.
         </p>
         
-        <form action="{% url 'shopping:search' %}" method="GET" class="mx-auto" style="max-width: 620px;">
-            <div class="input-group input-group-lg shadow-lg">
-                <input type="text" name="q" class="form-control border-0 px-4" placeholder="Search phone, laptop, earbuds, specs...">
-                <button class="btn btn-primary px-4 fw-bold" type="submit">
-                    <i class="fa-solid fa-magnifying-glass me-2"></i> Find Best Price
-                </button>
-            </div>
+        <!-- Search Box -->
+        <form action="{% url 'shopping:search' %}" method="GET" class="hero-search-box d-flex align-items-center">
+            <i class="fa-solid fa-magnifying-glass text-muted me-2"></i>
+            <input type="text" name="q" placeholder="Search smartphones, laptops, earbuds, accessories..." autofocus>
+            <button class="hero-search-btn" type="submit">
+                Find Best Price
+            </button>
         </form>
 
-        <div class="d-flex justify-content-center gap-4 mt-4 pt-2 text-secondary small flex-wrap">
+        <!-- Quick Search Tags -->
+        <div class="quick-tags">
+            <span class="text-white-50 small me-1">Popular:</span>
+            <a href="{% url 'shopping:search' %}?q=Samsung+Galaxy" class="quick-tag-pill">Samsung Galaxy</a>
+            <a href="{% url 'shopping:search' %}?q=HP+Pavilion" class="quick-tag-pill">HP Pavilion</a>
+            <a href="{% url 'shopping:search' %}?q=Earbuds" class="quick-tag-pill">Anker Earbuds</a>
+            <a href="{% url 'shopping:search' %}?category=Smartphones" class="quick-tag-pill">Smartphones</a>
+            <a href="{% url 'shopping:search' %}?category=Laptop" class="quick-tag-pill">Laptops</a>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="d-flex justify-content-center gap-4 mt-4 pt-2 text-white-50 small flex-wrap">
             <div><i class="fa-solid fa-shield-check text-success me-1"></i> Verified Merchant Feeds</div>
             <div><i class="fa-solid fa-truck-fast text-info me-1"></i> Delivery Fee Inclusive</div>
-            <div><i class="fa-solid fa-tag text-warning me-1"></i> Real-Time Savings</div>
+            <div><i class="fa-solid fa-tag text-warning me-1"></i> Transparent NPR Savings</div>
         </div>
     </div>
 </div>
@@ -36,46 +47,92 @@
     <!-- Platform Metrics Ribbon -->
     <div class="row g-3 mb-5">
         <div class="col-6 col-md-3">
-            <div class="card p-3 shadow-sm border-0 text-center rounded-3 bg-white">
-                <div class="h3 fw-bold text-primary mb-1">{{ total_products }}</div>
-                <div class="small text-muted">Canonical Products</div>
+            <div class="stat-card">
+                <div class="stat-number text-primary">{{ total_products }}</div>
+                <div class="stat-label">Canonical Products</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card p-3 shadow-sm border-0 text-center rounded-3 bg-white">
-                <div class="h3 fw-bold text-success mb-1">{{ total_listings }}</div>
-                <div class="small text-muted">Store Listings Tracked</div>
+            <div class="stat-card">
+                <div class="stat-number text-success">{{ total_listings }}</div>
+                <div class="stat-label">Store Listings Tracked</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card p-3 shadow-sm border-0 text-center rounded-3 bg-white">
-                <div class="h3 fw-bold text-info mb-1">{{ total_stores }}</div>
-                <div class="small text-muted">Authorized Stores</div>
+            <div class="stat-card">
+                <div class="stat-number text-info">{{ total_stores }}</div>
+                <div class="stat-label">Authorized Stores</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card p-3 shadow-sm border-0 text-center rounded-3 bg-white">
-                <div class="h3 fw-bold text-danger mb-1">{{ deal_products|length }}</div>
-                <div class="small text-muted">Multi-Store Deals</div>
+            <div class="stat-card">
+                <div class="stat-number text-danger">{{ deal_products|length }}</div>
+                <div class="stat-label">Multi-Store Deals</div>
             </div>
         </div>
     </div>
 
-    <!-- Featured Multi-Store Deals -->
+    <!-- How the Platform Works -->
+    <div class="mb-5 pb-3">
+        <div class="text-center mb-4">
+            <span class="badge bg-light text-primary border px-3 py-1 rounded-pill fw-bold text-uppercase small">Simple & Transparent</span>
+            <h2 class="fw-bold mt-2">How Smart Shopping Nepal Works</h2>
+            <p class="text-muted small mx-auto" style="max-width: 600px;">
+                We monitor prices from verified Nepali shopping portals so you never overpay for delivery or hidden merchant markups.
+            </p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="how-it-works-card">
+                    <div class="how-step-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">1. Search Any Product</h5>
+                    <p class="text-muted small mb-0">
+                        Enter any phone, laptop, or gadget model. Our intelligent matching engine identifies equivalent specifications and variants.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-it-works-card">
+                    <div class="how-step-icon">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">2. Compare True Landed Costs</h5>
+                    <p class="text-muted small mb-0">
+                        We calculate <strong>Total Price = Product Price + Delivery Charge</strong> across competing stores like Daraz, Hukut, and Oliz.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-it-works-card">
+                    <div class="how-step-icon">
+                        <i class="fa-solid fa-piggy-bank"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">3. Buy at the Best Store & Save</h5>
+                    <p class="text-muted small mb-0">
+                        Click directly to the lowest-priced authorized merchant in Nepal and keep your hard-earned Nepalese Rupees (NPR).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Multi-Store Deals & Top Price Differences -->
     {% if deal_products %}
     <div class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <div>
                 <h3 class="fw-bold mb-1"><i class="fa-solid fa-fire text-danger me-2"></i>Top Price Differences & Savings</h3>
-                <p class="text-muted small mb-0">Identical products available at lower prices on competing Nepali stores.</p>
+                <p class="text-muted small mb-0">Identical verified products available at significantly lower prices on competing Nepali stores.</p>
             </div>
-            <a href="{% url 'shopping:compare_list' %}" class="btn btn-outline-primary btn-sm">View All Comparisons &rarr;</a>
+            <a href="{% url 'shopping:compare_list' %}" class="btn btn-outline-primary btn-sm px-3">View All Comparisons &rarr;</a>
         </div>
 
         <div class="row g-4">
             {% for item in deal_products %}
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 product-card shadow-sm border">
+                <div class="product-card h-100">
                     <div class="card-body p-4 d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <span class="badge bg-light text-dark border">{{ item.product.category }}</span>
@@ -83,14 +140,15 @@
                                 <i class="fa-solid fa-arrow-down me-1"></i> Save NPR {{ item.summary.saving_npr|floatformat:0|intcomma }} ({{ item.summary.saving_percent }}%)
                             </span>
                         </div>
-                        <h5 class="card-title fw-bold mb-1">
+                        
+                        <h5 class="card-title fw-bold mb-1 mt-1">
                             <a href="{% url 'shopping:product_detail' item.product.pk %}" class="text-dark text-decoration-none">
                                 {{ item.product.brand }} {{ item.product.name }}
                             </a>
                         </h5>
-                        <div class="text-muted small mb-3">Model: {{ item.product.model }}</div>
+                        <div class="text-muted small mb-3">Model: <strong>{{ item.product.model }}</strong></div>
 
-                        <div class="p-3 bg-light rounded-3 mb-3 mt-auto">
+                        <div class="p-3 bg-light rounded-3 mb-3 mt-auto border border-subtle">
                             <div class="d-flex justify-content-between align-items-baseline">
                                 <span class="small text-muted">Cheapest Store:</span>
                                 <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">
@@ -107,7 +165,7 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
                             <span class="small text-muted"><i class="fa-solid fa-store me-1"></i> {{ item.summary.store_count }} Stores Available</span>
                             <a href="{% url 'shopping:compare_detail' item.product.canonical_product_key %}" class="btn btn-primary btn-sm px-3">
                                 Compare Stores
@@ -121,20 +179,31 @@
     </div>
     {% endif %}
 
-    <!-- Browse By Category -->
+    <!-- Popular Product Categories -->
     <div class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="fw-bold mb-0"><i class="fa-solid fa-layer-group text-primary me-2"></i>Browse by Category</h3>
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <h3 class="fw-bold mb-1"><i class="fa-solid fa-layer-group text-primary me-2"></i>Browse by Popular Category</h3>
+                <p class="text-muted small mb-0">Explore gadgets, computers, audio, and consumer electronics in Nepal.</p>
+            </div>
             <a href="{% url 'shopping:categories' %}" class="btn btn-outline-secondary btn-sm">All Categories &rarr;</a>
         </div>
         <div class="row g-3">
             {% for cat in categories %}
             <div class="col-6 col-md-4 col-lg-3">
-                <a href="{% url 'shopping:category_detail' cat.category %}" class="card p-3 text-decoration-none text-dark shadow-sm border-0 rounded-3 text-center h-100 bg-white">
+                <a href="{% url 'shopping:category_detail' cat.category %}" class="card p-3 text-decoration-none text-dark shadow-sm border rounded-3 text-center h-100 bg-white stat-card">
                     <div class="py-2">
-                        <i class="fa-solid fa-box text-primary fs-3 mb-2"></i>
+                        {% if cat.category == 'Mobile Phone' or cat.category == 'Smartphones' %}
+                            <i class="fa-solid fa-mobile-screen-button text-primary fs-2 mb-2"></i>
+                        {% elif cat.category == 'Laptop' %}
+                            <i class="fa-solid fa-laptop text-primary fs-2 mb-2"></i>
+                        {% elif cat.category == 'Earbuds' %}
+                            <i class="fa-solid fa-headphones text-primary fs-2 mb-2"></i>
+                        {% else %}
+                            <i class="fa-solid fa-box text-primary fs-2 mb-2"></i>
+                        {% endif %}
                         <h6 class="fw-bold mb-1">{{ cat.category }}</h6>
-                        <span class="badge bg-light text-muted">{{ cat.count }} Products</span>
+                        <span class="badge bg-light text-muted border">{{ cat.count }} Products</span>
                     </div>
                 </a>
             </div>
@@ -142,20 +211,109 @@
         </div>
     </div>
 
-    <!-- Recently Added Products -->
+    <!-- AI Recommended Products -->
+    {% if recommendations %}
+    <div class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <h3 class="fw-bold mb-1"><i class="fa-solid fa-wand-magic-sparkles text-primary me-2"></i>Smart AI Recommended Alternatives</h3>
+                <p class="text-muted small mb-0">Data-driven content similarity recommendations powered by Scikit-Learn TF-IDF matching.</p>
+            </div>
+            <a href="{% url 'shopping:recommendations' %}" class="btn btn-outline-secondary btn-sm">View Recommendation Engine &rarr;</a>
+        </div>
+        <div class="row g-4">
+            {% for rec in recommendations %}
+            <div class="col-md-6">
+                <div class="card p-3 shadow-sm border rounded-3 bg-white h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-light text-muted border">{{ rec.source_product.category }}</span>
+                        <span class="badge bg-info-subtle text-info border border-info-subtle">
+                            <i class="fa-solid fa-sparkles me-1"></i> {{ rec.similarity_score|floatformat:2 }} Similarity
+                        </span>
+                    </div>
+                    <div class="row g-2 align-items-center my-auto">
+                        <div class="col-5 text-center p-2 bg-light rounded-3">
+                            <div class="small text-muted">If you are viewing:</div>
+                            <strong class="d-block text-truncate">{{ rec.source_product.name }}</strong>
+                            <span class="badge bg-secondary-subtle text-secondary small">{{ rec.source_product.brand }}</span>
+                        </div>
+                        <div class="col-2 text-center text-primary fs-5">
+                            <i class="fa-solid fa-arrows-left-right"></i>
+                        </div>
+                        <div class="col-5 text-center p-2 bg-light rounded-3">
+                            <div class="small text-muted">We recommend:</div>
+                            <strong class="d-block text-truncate">{{ rec.recommended_product.name }}</strong>
+                            <span class="badge bg-secondary-subtle text-secondary small">{{ rec.recommended_product.brand }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center">
+                        <span class="small text-muted">Algorithm: Content-Based TF-IDF</span>
+                        <a href="{% url 'shopping:product_detail' rec.recommended_product.pk %}" class="btn btn-sm btn-outline-primary">
+                            View Alternative
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Recently Updated Price Comparisons -->
+    {% if recent_updates %}
+    <div class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <h3 class="fw-bold mb-1"><i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>Recently Updated Store Offers</h3>
+                <p class="text-muted small mb-0">Latest verified price checks across Nepali merchants.</p>
+            </div>
+            <a href="{% url 'shopping:compare_list' %}" class="btn btn-outline-secondary btn-sm">View Table &rarr;</a>
+        </div>
+        <div class="row g-3">
+            {% for listing in recent_updates %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card p-3 shadow-sm border rounded-3 bg-white h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge-store"><i class="fa-solid fa-store me-1"></i> {{ listing.store.name }}</span>
+                        <span class="badge bg-success-subtle text-success small">In Stock</span>
+                    </div>
+                    <h6 class="fw-bold mb-1">
+                        <a href="{% url 'shopping:product_detail' listing.product.pk %}" class="text-dark text-decoration-none">
+                            {{ listing.product.name }}
+                        </a>
+                    </h6>
+                    <div class="d-flex justify-content-between align-items-baseline mt-2">
+                        <span class="small text-muted">Landed Cost:</span>
+                        <strong class="text-success fs-5">NPR {{ listing.total_price_npr|floatformat:0|intcomma }}</strong>
+                    </div>
+                    <div class="small text-muted mt-1">Delivery: NPR {{ listing.shipping_cost_npr|default:0|floatformat:0 }}</div>
+                    <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center">
+                        <span class="small text-muted">{{ listing.last_updated|date:"M d, Y" }}</span>
+                        <a href="{{ listing.product_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">
+                            Visit Store <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Recently Added Catalog Products -->
     {% if recent_products %}
     <div class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <div>
-                <h3 class="fw-bold mb-1"><i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>Recently Added Catalog Products</h3>
+                <h3 class="fw-bold mb-1"><i class="fa-solid fa-boxes-stacked text-primary me-2"></i>Catalog Directory</h3>
                 <p class="text-muted small mb-0">Browse latest verified products tracked in Nepal online shopping markets.</p>
             </div>
-            <a href="{% url 'shopping:search' %}" class="btn btn-outline-secondary btn-sm">Search All &rarr;</a>
+            <a href="{% url 'shopping:search' %}" class="btn btn-outline-secondary btn-sm">Search All Catalog &rarr;</a>
         </div>
         <div class="row g-3">
             {% for p in recent_products %}
             <div class="col-md-6 col-lg-3">
-                <div class="card h-100 shadow-sm border-0 bg-white p-3 rounded-3">
+                <div class="card h-100 shadow-sm border bg-white p-3 rounded-3 product-card">
                     <div class="small text-muted">{{ p.category }} &bull; {{ p.brand }}</div>
                     <h6 class="fw-bold mt-1 mb-2">
                         <a href="{% url 'shopping:product_detail' p.pk %}" class="text-dark text-decoration-none">
@@ -164,7 +322,7 @@
                     </h6>
                     <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
                         <span class="small text-muted">{{ p.listings.count }} listings</span>
-                        <a href="{% url 'shopping:product_detail' p.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                        <a href="{% url 'shopping:product_detail' p.pk %}" class="btn btn-sm btn-outline-primary">View Offers</a>
                     </div>
                 </div>
             </div>

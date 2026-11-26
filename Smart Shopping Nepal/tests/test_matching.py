@@ -253,6 +253,41 @@ class TestIntelligentProductMatching(unittest.TestCase):
         self.assertEqual(real_res["lowest_total_price"], 44999.0)
         self.assertEqual(real_res["number_of_stores"], 1)
 
+    def test_four_confidence_match_tiers(self):
+        """Verifies 4 confidence tiers: Exact Match, Probable Match, Similar Product, Unmatched Product."""
+        # 1. Exact Match (Confidence 1.0)
+        exact_p1 = {"product_name": "Samsung Galaxy A56 5G (8GB/256GB)", "brand": "Samsung"}
+        exact_p2 = {"product_name": "Samsung Galaxy A56 5G 8GB/256GB Smartphone", "brand": "Samsung"}
+        tier_exact = self.matcher.classify_match_tier(exact_p1, exact_p2)
+        self.assertEqual(tier_exact["tier"], "Exact Match")
+        self.assertEqual(tier_exact["confidence"], 1.0)
+        self.assertTrue(tier_exact["is_match"])
+
+        # 2. Probable Match (Confidence 0.85 - 0.95)
+        prob_p1 = {"product_name": "Anker Soundcore R50i True Wireless Earbuds", "brand": "Anker"}
+        prob_p2 = {"product_name": "Anker Soundcore R50i TWS Earbuds - Black", "brand": "Anker"}
+        tier_prob = self.matcher.classify_match_tier(prob_p1, prob_p2)
+        self.assertIn(tier_prob["tier"], ["Exact Match", "Probable Match"])
+        self.assertGreaterEqual(tier_prob["confidence"], 0.85)
+        self.assertTrue(tier_prob["is_match"])
+
+        # 3. Similar Product (Confidence 0.60 - 0.84, is_match False)
+        sim_p1 = {"product_name": "Samsung Galaxy A56 5G (8GB/128GB)", "brand": "Samsung", "category": "Mobile Phone"}
+        sim_p2 = {"product_name": "Samsung Galaxy A56 5G (8GB/256GB)", "brand": "Samsung", "category": "Mobile Phone"}
+        tier_sim = self.matcher.classify_match_tier(sim_p1, sim_p2)
+        self.assertEqual(tier_sim["tier"], "Similar Product")
+        self.assertGreaterEqual(tier_sim["confidence"], 0.60)
+        self.assertLessEqual(tier_sim["confidence"], 0.84)
+        self.assertFalse(tier_sim["is_match"])
+
+        # 4. Unmatched Product (Confidence < 0.60, is_match False)
+        unmatch_p1 = {"product_name": "Apple iPhone 15 128GB", "brand": "Apple", "category": "Mobile Phone"}
+        unmatch_p2 = {"product_name": "Samsung Galaxy A56 256GB", "brand": "Samsung", "category": "Mobile Phone"}
+        tier_unmatch = self.matcher.classify_match_tier(unmatch_p1, unmatch_p2)
+        self.assertEqual(tier_unmatch["tier"], "Unmatched Product")
+        self.assertLess(tier_unmatch["confidence"], 0.60)
+        self.assertFalse(tier_unmatch["is_match"])
+
 
 if __name__ == "__main__":
     unittest.main()

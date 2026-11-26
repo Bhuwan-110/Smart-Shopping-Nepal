@@ -1,24 +1,24 @@
 {
     "collection_status": "COMPLETED",
-    "start_time": "2026-11-24T16:43:01.892462+00:00",
-    "end_time": "2026-11-24T16:43:01.902708+00:00",
+    "start_time": "2026-11-26T11:17:36.002471+00:00",
+    "end_time": "2026-11-26T11:17:36.054913+00:00",
     "total_connectors_run": 2,
-    "total_records_attempted": 9,
-    "total_records_collected": 9,
+    "total_records_attempted": 78,
+    "total_records_collected": 78,
     "total_failures_recorded": 0,
-    "duplicates_removed": 3,
-    "final_clean_records": 6,
+    "duplicates_removed": 8,
+    "final_clean_records": 70,
     "connector_results": [
         {
             "platform": "Manual Verified Import",
             "data_source": "manual_import",
             "success": true,
-            "total_attempted": 6,
-            "total_collected": 6,
+            "total_attempted": 75,
+            "total_collected": 75,
             "total_failed": 0,
-            "start_time": "2026-11-24T16:43:01.892474+00:00",
-            "end_time": "2026-11-24T16:43:01.896762+00:00",
-            "message": "Collected 6 records with 0 failures from Manual Verified Import.",
+            "start_time": "2026-11-26T11:17:36.002494+00:00",
+            "end_time": "2026-11-26T11:17:36.032343+00:00",
+            "message": "Collected 75 records with 0 failures from Manual Verified Import.",
             "failures": []
         },
         {
@@ -28,18 +28,18 @@
             "total_attempted": 3,
             "total_collected": 3,
             "total_failed": 0,
-            "start_time": "2026-11-24T16:43:01.896775+00:00",
-            "end_time": "2026-11-24T16:43:01.898779+00:00",
+            "start_time": "2026-11-26T11:17:36.032409+00:00",
+            "end_time": "2026-11-26T11:17:36.038942+00:00",
             "message": "Collected 3 records with 0 failures from Daraz Nepal.",
             "failures": []
         }
     ],
     "deduplication_audit": {
-        "total_records": 9,
-        "duplicate_count": 3,
-        "unique_products_count": 4,
-        "multi_store_products_count": 2,
-        "duplicate_rate_percent": 33.33
+        "total_records": 78,
+        "duplicate_count": 8,
+        "unique_products_count": 30,
+        "multi_store_products_count": 29,
+        "duplicate_rate_percent": 10.26
     },
     "output_filepath": "D:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\raw\\collected_listings.csv"
 }

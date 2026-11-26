@@ -104,13 +104,24 @@ def run_server():
     os.system(f"{sys.executable} manage.py runserver")
 
 
+def run_streamlit():
+    """Runs Streamlit Research & Data Analytics Dashboard."""
+    streamlit_cmd = os.path.join(CURRENT_DIR, ".venv", "Scripts", "streamlit")
+    if not os.path.exists(streamlit_cmd) and not os.path.exists(streamlit_cmd + ".exe"):
+        streamlit_cmd = "streamlit"
+    os.system(f"{streamlit_cmd} run streamlit_app.py")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Smart Shopping Nepal Controller")
     parser.add_argument("--serve", "-s", action="store_true", help="Launch the Django web application")
+    parser.add_argument("--streamlit", "-d", action="store_true", help="Launch the Streamlit research dashboard")
     args = parser.parse_args()
 
     if args.serve:
         run_server()
+    elif args.streamlit:
+        run_streamlit()
     else:
         run_pipeline()
 

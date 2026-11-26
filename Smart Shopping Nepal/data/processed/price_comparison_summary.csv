@@ -1,7 +1,36 @@
 product_name,product_key,brand,category,cheapest_store,lowest_total_price,highest_total_price,average_total_price,total_price_npr,number_of_stores,saving_npr,saving_percent,record_type
-Samsung Galaxy A56 5G,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,Hukut Store,43800.0,44999.0,44399.5,43800.0,2,1199.0,2.66,real
-HP Pavilion 15,hp_pavilion_15_16gb_512gb,HP,Laptop,Hukut Store,84900.0,86750.0,85825.0,84900.0,2,1850.0,2.13,real
-Anker Soundcore Earbuds,anker_soundcore_earbuds_standard,Anker,Earbuds,Oliz Store,3500.0,3549.0,3524.5,3500.0,2,49.0,1.38,real
+Samsung Galaxy A56 5G 8GB/256GB Smartphone,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,Hukut Store,43800.0,44999.0,44383.0,43800.0,3,1199.0,2.66,real
+HP Pavilion Laptop 15 16GB/512GB SSD,hp_pavilion_15_16gb_512gb,HP,Laptop,Hukut Store,84900.0,86750.0,85550.0,84900.0,3,1850.0,2.13,real
+Anker Soundcore Earbuds,anker_soundcore_earbuds_standard,Anker,Earbuds,Daraz Nepal,3549.0,3549.0,3549.0,3549.0,1,0.0,0.0,real
+Apple iPhone 15 (128GB),apple_iphone_15_128gb,Apple,Mobile Phone,iShop Nepal,108600.0,112000.0,110216.67,108600.0,3,3400.0,3.04,real
+Xiaomi Redmi Note 13 Pro (8GB/256GB),xiaomi_redmi_note_13_pro_8gb_256gb,Xiaomi,Mobile Phone,Mobile Mandu,31850.0,32999.0,32424.5,31850.0,2,1149.0,3.48,real
+Acer Aspire 5 Core i5 13th Gen (16GB/512GB),acer_aspire_5_16gb_512gb,Acer,Laptop,DealAyo,76600.0,78199.0,77399.5,76600.0,2,1599.0,2.04,real
+Anker PowerPort III 20W Fast Charger USB-C,anker_powerport_iii_standard,Anker,Mobile Accessories,Hukut Store,2099.0,2249.0,2157.67,2099.0,3,150.0,6.67,real
+Baseus Bipow 10000mAh 20W Digital Display Powerbank,baseus_bipow_10000mah_standard,Baseus,Mobile Accessories,Mobile Mandu,2700.0,2750.0,2725.0,2700.0,2,50.0,1.82,real
+Logitech B100 USB Mouse Black,logitech_b100_standard,Logitech,Computer Accessories,Hukut Store,670.0,700.0,689.67,670.0,3,30.0,4.29,real
+SanDisk Ultra 64GB USB 3.0 Flash Drive,sandisk_ultra_flair_64gb,SanDisk,Computer Accessories,Daraz Nepal,1150.0,1155.0,1152.5,1150.0,2,5.0,0.43,real
+Anker Soundcore R50i Earbuds Black,anker_soundcore_r50i_standard,Anker,Audio and Wearables,Hukut Store,3399.0,3500.0,3449.5,3399.0,2,101.0,2.89,real
+boAt Airdopes 141 TWS Earbuds Black,boat_airdopes_141_standard,boAt,Audio and Wearables,Fatafat Sewa,2450.0,2499.0,2474.5,2450.0,2,49.0,1.96,real
+Levi's 511 Slim Fit Jeans 32 Blue,levi's_511_slim_s_blue,Levi's,Men's Clothing,OnePasal,4750.0,4875.0,4812.5,4750.0,2,125.0,2.56,real
+Levi's Men 511 Slim Fit Jeans (Size 32),levi's_511_slim_size_32_blue,Levi's,Men's Clothing,Hamromall,4750.0,4750.0,4750.0,4750.0,1,0.0,0.0,real
+Men Cotton Casual Polo T-Shirt M Navy,generic_classic_polo_m_navy,Generic,Men's Clothing,SastoDeal,1250.0,1300.0,1275.0,1250.0,2,50.0,3.85,real
+Women Printed Cotton Kurti and Palazzo Set,generic_printed_kurti_set_l_maroon,Generic,Women's Clothing,OnePasal,2074.0,2150.0,2112.0,2074.0,2,76.0,3.53,real
+Zara Women Floral Midi Dress M,zara_floral_midi_dress_m,Zara,Women's Clothing,Hamromall,3800.0,3950.0,3875.0,3800.0,2,150.0,3.8,real
+Kids Cotton Summer T-Shirt & Shorts 3Y,generic_kids_summer_set_3y_yellow,Generic,Kids' Clothing,OnePasal,955.0,1000.0,977.5,955.0,2,45.0,4.5,real
+Goldstar Trekker Outdoor Shoes 41,goldstar_trekker_g10_41_gray,Goldstar,Footwear,OnePasal,1625.0,1700.0,1662.5,1625.0,2,75.0,4.41,real
+Goldstar Trekker G10 Shoes Size 41,goldstar_g10_size_41_gray,Goldstar,Footwear,Hamrobazaar,1600.0,1600.0,1600.0,1600.0,1,0.0,0.0,real
+Caliber Jordan Low Casual Sneakers 42,caliber_jordan_low_42_white,Caliber,Footwear,SastoDeal,2800.0,2850.0,2825.0,2800.0,2,50.0,1.75,real
+Fastrack Aviator Sunglasses UV Protection,fastrack_aviator_classic_standard,Fastrack,Fashion Accessories,OnePasal,2400.0,2500.0,2450.0,2400.0,2,100.0,4.0,real
+WildHorn Brown Leather Men Wallet,wildhorn_hunter_leather_wallet_standard,WildHorn,Fashion Accessories,SastoDeal,1455.0,1500.0,1477.5,1455.0,2,45.0,3.0,real
+Baltra 1.8L Automatic Rice Cooker,baltra_swift_1.8l_1.8l,Baltra,Home Appliances,DealAyo,2650.0,2750.0,2690.0,2650.0,3,100.0,3.64,real
+CG 20 Litre Solo Microwave Oven,cg_cg_m20_20l,CG,Home Appliances,Fatafat Sewa,9650.0,10000.0,9825.0,9650.0,2,350.0,3.5,real
+Cetaphil Gentle Skin Cleanser 250ml,cetaphil_gentle_skin_cleanser_250ml,Cetaphil,Beauty and Personal Care,Daraz Nepal,1850.0,1880.0,1865.0,1850.0,2,30.0,1.6,real
+The Derma Co 10% Niacinamide Face Serum,the_derma_co_10%_niacinamide_serum_30ml,The Derma Co,Beauty and Personal Care,Bizbazar,1355.0,1400.0,1377.5,1355.0,2,45.0,3.21,real
+Nilkamal Ergonomic Office Chair Mesh High Back,nilkamal_ergonomic_high_back_standard,Nilkamal,Furniture and Home,Bizbazar,11350.0,11800.0,11575.0,11350.0,2,450.0,3.81,real
+Yonex Nanoray 7000I Badminton Racquet,yonex_nanoray_7000i_standard,Yonex,Sports and Fitness,SastoDeal,3150.0,3275.0,3208.33,3150.0,3,125.0,3.82,real
+Nivia Storm Rubber Football (Size 5),nivia_storm_football_size_5,Nivia,Sports and Fitness,SastoDeal,1355.0,1400.0,1377.5,1355.0,2,45.0,3.21,real
+Doms Brush Pens 24 Shades Box,doms_brush_pens_24_standard,Doms,Books and Stationery,Mero ePasal,570.0,600.0,590.0,570.0,3,30.0,5.0,real
+Classmate Pulse Spiral Ruled Notebook 300 Pgs,classmate_pulse_notebook_standard,Classmate,Books and Stationery,Mero ePasal,315.0,340.0,327.5,315.0,2,25.0,7.35,real
 Samsung Galaxy A56,samsung_galaxy_a56_8gb_256gb,Samsung,Mobile Phone,No Price Available,,,,,0,0.0,0.0,sample
 HP Laptop,hp_pavilion_16gb_512gb,HP,Laptop,No Price Available,,,,,0,0.0,0.0,sample
 Wireless Earbuds,example_brand_example_model_standard,Example Brand,Earbuds,No Price Available,,,,,0,0.0,0.0,sample
