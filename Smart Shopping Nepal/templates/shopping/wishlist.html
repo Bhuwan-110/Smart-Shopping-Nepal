@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}My Wishlist | SmartShopping Nepal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="fa-solid fa-heart text-danger me-2"></i>My Saved Wishlist</h2>
+            <p class="text-muted small mb-0">Track price drops and get the best deal when stores lower prices.</p>
+        </div>
+        <span class="badge bg-primary px-3 py-2">{{ total_items }} Saved Items</span>
+    </div>
+
+    {% if wishlist_data %}
+    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 mb-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Saved Product</th>
+                        <th>Category</th>
+                        <th>Cheapest Store</th>
+                        <th>Current Best Price</th>
+                        <th>Potential Savings</th>
+                        <th>Saved Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for w in wishlist_data %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'shopping:product_detail' w.product.pk %}" class="fw-bold text-dark text-decoration-none">
+                                {{ w.product.brand }} {{ w.product.name }}
+                            </a>
+                            <div class="small text-muted">Model: {{ w.product.model }}</div>
+                        </td>
+                        <td><span class="badge bg-light text-dark border">{{ w.product.category }}</span></td>
+                        <td>
+                            {% if w.summary.lowest_price %}
+                            <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                {{ w.summary.cheapest_store }}
+                            </span>
+                            {% else %}
+                            <span class="text-muted small">No Offers</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if w.summary.lowest_price %}
+                            <strong class="text-success fs-5">NPR {{ w.summary.lowest_price|floatformat:0|intcomma }}</strong>
+                            {% else %}—{% endif %}
+                        </td>
+                        <td>
+                            {% if w.summary.saving_npr > 0 %}
+                            <span class="savings-pill">Save NPR {{ w.summary.saving_npr|floatformat:0|intcomma }}</span>
+                            {% else %}
+                            <span class="text-muted small">Best Price</span>
+                            {% endif %}
+                        </td>
+                        <td class="small text-muted">{{ w.item.added_at|date:"M d, Y" }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{% url 'shopping:compare_detail' w.product.canonical_product_key %}" class="btn btn-outline-primary">Compare</a>
+                                <a href="{% url 'shopping:remove_from_wishlist' w.product.pk %}" class="btn btn-outline-danger" title="Remove from wishlist">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="card p-5 text-center border-0 shadow-sm rounded-3 bg-white">
+        <i class="fa-regular fa-heart text-muted fs-1 mb-3"></i>
+        <h4>Your Wishlist is Empty</h4>
+        <p class="text-muted small mb-3">Save products while browsing to keep track of store price cuts in Nepal.</p>
+        <div>
+            <a href="{% url 'shopping:search' %}" class="btn btn-primary btn-sm px-3">Browse Products</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

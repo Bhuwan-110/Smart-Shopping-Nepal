@@ -1,26 +1,25 @@
 {
     "status": "SUCCESS",
-    "total_records_processed": 12,
+    "total_records_processed": 9,
     "unique_product_keys": 5,
     "record_type_breakdown": {
         "real": 6,
-        "sample": 3,
-        "demo": 3
+        "sample": 3
     },
     "missing_values": {
         "price_npr": 3,
         "shipping_cost_npr": 3,
         "rating": 3,
-        "review_count": 6,
-        "product_url": 6
+        "review_count": 3,
+        "product_url": 3
     },
     "validation_metrics": {
         "valid_urls_count": 6,
-        "valid_prices_count": 9,
-        "registered_platforms_count": 9
+        "valid_prices_count": 6,
+        "registered_platforms_count": 6
     },
     "duplicate_audit": {
-        "total_records": 12,
+        "total_records": 9,
         "duplicate_count": 0,
         "unique_products_count": 5,
         "multi_store_products_count": 3,
@@ -28,8 +27,8 @@
     },
     "collection_audit": {
         "collection_status": "COMPLETED",
-        "start_time": "2026-11-24T16:08:48.661845+00:00",
-        "end_time": "2026-11-24T16:08:48.710071+00:00",
+        "start_time": "2026-11-24T16:43:01.892462+00:00",
+        "end_time": "2026-11-24T16:43:01.902708+00:00",
         "total_connectors_run": 2,
         "total_records_attempted": 9,
         "total_records_collected": 9,
@@ -44,8 +43,8 @@
                 "total_attempted": 6,
                 "total_collected": 6,
                 "total_failed": 0,
-                "start_time": "2026-11-24T16:08:48.661886+00:00",
-                "end_time": "2026-11-24T16:08:48.683411+00:00",
+                "start_time": "2026-11-24T16:43:01.892474+00:00",
+                "end_time": "2026-11-24T16:43:01.896762+00:00",
                 "message": "Collected 6 records with 0 failures from Manual Verified Import.",
                 "failures": []
             },
@@ -56,8 +55,8 @@
                 "total_attempted": 3,
                 "total_collected": 3,
                 "total_failed": 0,
-                "start_time": "2026-11-24T16:08:48.683457+00:00",
-                "end_time": "2026-11-24T16:08:48.693392+00:00",
+                "start_time": "2026-11-24T16:43:01.896775+00:00",
+                "end_time": "2026-11-24T16:43:01.898779+00:00",
                 "message": "Collected 3 records with 0 failures from Daraz Nepal.",
                 "failures": []
             }
@@ -69,17 +68,17 @@
             "multi_store_products_count": 2,
             "duplicate_rate_percent": 33.33
         },
-        "output_filepath": "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\raw\\collected_listings.csv"
+        "output_filepath": "D:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\raw\\collected_listings.csv"
     },
     "matching_metrics": {
-        "total_matched_products": 9,
+        "total_matched_products": 6,
         "multi_store_deals_count": 3
     },
     "artifacts_generated": [
-        "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\cleaned_products.csv",
-        "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\price_comparison_summary.csv",
-        "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\detailed_store_comparison.csv",
-        "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\products_ml_features.csv",
-        "d:\\Smart Shopping Nepal\\Smart Shopping Nepal\\reports\\data_quality_report.json"
+        "D:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\cleaned_products.csv",
+        "D:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\price_comparison_summary.csv",
+        "D:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\detailed_store_comparison.csv",
+        "D:\\Smart Shopping Nepal\\Smart Shopping Nepal\\data\\processed\\products_ml_features.csv",
+        "D:\\Smart Shopping Nepal\\Smart Shopping Nepal\\reports\\data_quality_report.json"
     ]
 }

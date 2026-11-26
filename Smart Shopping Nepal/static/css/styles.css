@@ -1,0 +1,96 @@
+/* Smart Shopping Nepal - Custom Theme Stylesheet */
+:root {
+    --ss-primary: #0d6efd;
+    --ss-secondary: #6c757d;
+    --ss-success: #198754;
+    --ss-danger: #dc3545;
+    --ss-warning: #ffc107;
+    --ss-dark: #1e293b;
+    --ss-light: #f8fafc;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f1f5f9;
+    color: #334155;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.badge-nepal {
+    background: linear-gradient(135deg, #dc2626 0%, #1e3a8a 100%);
+    color: white;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 3.5rem 0;
+    border-bottom: 3px solid #3b82f6;
+}
+
+.product-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15);
+}
+
+.price-tag {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0f766e;
+}
+
+.savings-pill {
+    background-color: #dcfce7;
+    color: #166534;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+}
+
+.comparison-table th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.cheapest-row {
+    background-color: #f0fdf4 !important;
+    border-left: 4px solid #22c55e;
+}
+
+.footer {
+    background-color: #0f172a;
+    color: #94a3b8;
+    margin-top: auto;
+}
+
+.footer a {
+    color: #cbd5e1;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #ffffff;
+}

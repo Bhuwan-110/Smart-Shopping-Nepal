@@ -1,62 +1,163 @@
-
 # SmartShopping Nepal
 
 ## Project Overview
-SmartShopping Nepal is a product price comparison and recommendation system designed to help customers in Nepal compare products across different online shopping platforms.
+SmartShopping Nepal is an end-to-end product price comparison, smart recommendation, and analytics web application built with Python and Django. Designed specifically for customers and online shoppers in Nepal, it normalizes product information, compares true landed costs (Product Price + Shipping Fee in Nepalese Rupees), and provides transparent price insights across verified Nepali e-commerce platforms.
 
-## Project Objectives
-- Compare prices of the same product across online shopping platforms.
-- Display product ratings and review counts when reliable data is available.
-- Help customers identify suitable products based on price and other relevant factors.
-- Provide links to the original product pages.
-- Build a data-driven recommendation system.
+---
 
-## Planned Technologies
-- Python 3.10+
-- Django (Core Web Application & REST APIs)
-- Streamlit (Internal Analytics & Model Prototyping Dashboard)
-- Jupyter Notebook (EDA & Prototyping)
-- Pandas & NumPy (Data processing)
-- Scikit-learn (Recommendation Engine & Machine Learning)
-- Matplotlib & Seaborn (Data visualization)
+## Key Features & Completed Phases
+
+### 1. Phase 1 — Data Processing Pipeline
+- Reusable CSV ingestion, schema validation, and data cleaning routines (`src/loader.py`, `src/cleaner.py`).
+- NPR currency normalization and delivery fee parsing without ever assuming blank prices are zero.
+- Backward-compatible composite slug product keys (`src/keygen.py`).
+- Exact and fuzzy cross-store deduplication (`src/deduplicator.py`).
+- Clear data tier tagging: `real` (verified listings), `sample` (canonical catalog templates), and `demo`.
+
+### 2. Phase 2 — Authorized Data Collection System
+- Strict adherence to data governance policies: automated scraping without express permission is prohibited.
+- Modular connector architecture (`src/collectors/`):
+  - `manual_import.py`: Authorized manual CSV and JSON imports.
+  - `daraz.py`: Official Open Platform API connector with HMAC-SHA256 signing and throttling.
+  - `partner_feed.py`: Merchant partner direct feeds.
+  - `manager.py`: Centralized orchestrator tracking collection logs and audit trails.
+
+### 3. Phase 3 — Intelligent Product Matching & Price Comparison
+- Multi-attribute spec extraction: brand, model, RAM, storage, color, and hardware condition.
+- Hard-gating rules: strictly prevents false positives across different models (e.g. Galaxy A56 vs A55) or variants (e.g. 128GB vs 256GB).
+- Scikit-learn TF-IDF similarity calculation for flexible cross-store title grouping (`src/matcher.py`).
+- Multi-store price comparison engine: lowest price, highest price, average price, potential savings (NPR and %), and store availability counts (`src/comparator.py`).
+
+### 4. Phase 5 — Django Web Application & Relational Database Integration
+- Full-stack Django web application running on PostgreSQL (with automatic zero-dependency SQLite fallback for local development).
+- **10 Core Website Modules**:
+  1. **Homepage** (`/`): Hero search banner, key catalog metrics, featured multi-store deals, browse by category, and recently added catalog products.
+  2. **Product Search** (`/search/`): Real-time keyword search with faceted filtering by category, brand, min/max price, and sorting.
+  3. **Product Categories** (`/categories/`, `/category/<category_name>/`): Comprehensive taxonomy browsing.
+  4. **Product Details** (`/product/<id>/`): Specification breakdown, multi-store comparison table, best price badge, and wishlist toggle.
+  5. **Price Comparison** (`/compare/`, `/compare/<product_key>/`): Detailed multi-store comparison matrix highlighting cheapest store, landed costs, and potential savings.
+  6. **Product Recommendations** (`/recommendations/`): Smart TF-IDF content-based product pairings.
+  7. **Store / Platform Directory** (`/stores/`, `/store/<slug>/`): Compliance registry showing data access methods and authorization status for Nepali e-commerce platforms.
+  8. **User Authentication** (`/register/`, `/login/`, `/logout/`): Standard user accounts with session management.
+  9. **User Wishlist** (`/wishlist/`, `/wishlist/add/<id>/`, `/wishlist/remove/<id>/`): Saved products with target price drop tracking.
+  10. **Operations & Admin Dashboard** (`/dashboard/`): Internal analytics, catalog metrics, category distributions, collection audit logs, and direct link to Django Admin (`/admin/`).
+
+---
+
+## Database Architecture
+
+The relational schema is implemented in `shopping/models.py`:
+- `Product`: Canonical product identity (Brand, Model, Category, Canonical Key).
+- `ProductVariant`: Hardware variants (RAM, Storage, Color, SKU).
+- `Store`: Registered Nepali stores and platforms with compliance audit attributes.
+- `ProductListing`: Per-store product offerings, price in NPR, delivery cost, availability, ratings, and live store URL. Automatically computes landed cost (`total_price_npr = price_npr + shipping_cost_npr`).
+- `PriceHistory`: Temporal audit log tracking price changes over time.
+- `ProductReview`: User ratings and verified reviews.
+- `Wishlist`: User saved products and target price drop alerts.
+- `RecommendationResult`: Precomputed Scikit-Learn TF-IDF similarity scores.
+- `CollectionLog`: Audit trail of ingestion runs and API sync records.
+
+---
 
 ## Project Structure
-- `data/raw/` — Original collected data (`sample_products.csv`, `source_registry.csv`)
-- `data/processed/` — Cleaned and processed data (`price_comparison_summary.csv`)
-- `notebooks/` / `Notebook/` — Data analysis and machine learning experiments (`Model Notebook Code .ipynb`)
-- `src/` — Reusable Python modules:
-  - `loader.py`: Reusable, schema-safe CSV ingestion & export routines
-  - `cleaner.py`: Text normalization, NPR currency & shipping normalization, rating validation
-  - `keygen.py`: Backward-compatible composite slug product key generator
-  - `validator.py`: URL, price, rating, and platform compliance validation
-  - `deduplicator.py`: Exact and cross-store duplicate detection and auditing
-  - `matcher.py`: Intelligent Product Matching Engine (Attribute extraction, hard gating & Scikit-learn TF-IDF similarity)
-  - `comparator.py`: Multi-store comparison engine (Lowest, highest, average landed cost, savings math, store counting)
-  - `ml_preparer.py`: Feature engineering for machine learning and recommendation models
-  - `pipeline.py`: End-to-end data processing pipeline orchestrator
-  - `collectors/`:
-    - `base.py`: Abstract BaseConnector with strict schema validation & failure tracking
-    - `manual_import.py`: Authorized manual CSV/JSON import connector
-    - `daraz.py`: Daraz Open Platform API connector with ToS compliance safeguards
-    - `partner_feed.py`: Direct merchant partner feed connector under written agreements
-    - `manager.py`: CollectionManager coordinating multi-platform collection & audit logging
-- `data/raw/manual_imports/` — Standardized manual import templates & verified store feeds
-- `data/processed/` — Processed artifacts (`cleaned_products.csv`, `price_comparison_summary.csv`, `detailed_store_comparison.csv`, `products_ml_features.csv`)
-- `models/` — Saved machine learning models & serialization artifacts
-- `reports/` — Analysis, evaluation, data quality, and collection audit reports
-- `tests/` — Automated test suite (`test_pipeline.py`, `test_collection.py`, `test_matching.py`)
-- `main.py` — Application entry point running the full collection, matching, and comparison pipeline
 
-## Data Policy
-Product data will be collected strictly from authorized APIs, partner feeds, permitted sources, or manually verified listings. Automated scraping without express written permission is strictly prohibited. Demo and sample data are clearly distinguished from verified merchant listings.
+```text
+Smart Shopping Nepal/
+├── data/
+│   ├── raw/
+│   │   ├── sample_products.csv             # Baseline canonical catalog
+│   │   ├── source_registry.csv             # Authorized platform compliance registry
+│   │   └── manual_imports/                 # Authorized partner imports
+│   └── processed/
+│       ├── cleaned_products.csv            # Cleaned, standardized listings
+│       ├── price_comparison_summary.csv    # Multi-store price comparison summary
+│       ├── detailed_store_comparison.csv   # Granular per-store comparison
+│       └── products_ml_features.csv        # TF-IDF feature matrix
+├── notebooks/                              # Jupyter analysis and model experimentation
+├── reports/                                # Ingestion and quality audit reports
+├── src/                                    # Reusable Python data processing modules
+│   ├── cleaner.py                          # Currency, shipping & text cleaner
+│   ├── comparator.py                       # Price comparison engine
+│   ├── deduplicator.py                     # Duplicate detection
+│   ├── keygen.py                           # Canonical key generation
+│   ├── loader.py                           # Schema-validated CSV loader
+│   ├── matcher.py                          # Scikit-learn TF-IDF matching engine
+│   ├── ml_preparer.py                      # Recommendation feature engineering
+│   ├── pipeline.py                         # End-to-end data processing pipeline
+│   └── collectors/                         # Authorized data collection connectors
+├── smart_shopping_web/                     # Django core project package
+│   ├── settings.py                         # Dual PostgreSQL / SQLite configuration
+│   ├── urls.py                             # Project-level URL routing
+│   ├── wsgi.py                             # WSGI server entry
+│   └── asgi.py                             # ASGI server entry
+├── shopping/                               # Django shopping web application
+│   ├── models.py                           # 10 Core relational models
+│   ├── views.py                            # View controllers for all 10 modules
+│   ├── urls.py                             # App URL routing
+│   ├── admin.py                            # Django Admin configuration
+│   ├── management/commands/sync_pipeline.py # Ingestion & pipeline sync command
+│   └── tests.py                            # Web app test suite
+├── static/                                 # Static assets (CSS, JS)
+│   └── css/styles.css                      # Custom responsive UI styles
+├── templates/                              # HTML templates (Bootstrap 5)
+│   ├── base.html                           # Base layout with navbar and footer
+│   └── shopping/                           # 10 Module templates
+├── tests/                                  # Automated test suites
+│   ├── test_pipeline.py                    # Phase 1 pipeline tests
+│   ├── test_collection.py                  # Phase 2 collection tests
+│   ├── test_matching.py                    # Phase 3 matching tests
+│   └── test_django_app.py                  # Phase 5 Django integration tests
+├── manage.py                               # Django CLI entrypoint
+├── main.py                                 # Pipeline runner & application controller
+└── README.md                               # Project documentation
+```
 
-## Project Status
-- **Phase 0 — Project Audit & Architectural Baseline**: Completed.
-- **Phase 1 — Data Processing Pipeline**: Completed.
-- **Phase 2 — Product Data Collection System**: Completed.
-- **Phase 3 — Intelligent Product Matching & Price Comparison**: Completed.
-  - Multi-attribute extractor (Brand, Model, RAM, Storage, Condition) and Scikit-learn TF-IDF engine implemented in `src/matcher.py`.
-  - False positive prevention: strictly prevents mismatching different models (e.g. A56 vs A55), variants (e.g. 128GB vs 256GB), or conditions (New vs Used).
-  - Advanced comparison metrics calculated: lowest, highest, average total landed price (`price + shipping`), potential savings (NPR and %), and store availability counts.
-  - Tier isolation strictly enforced: demo listings are never mixed with verified real store listings.
-  - Comprehensive labeled test suite implemented in `tests/test_matching.py` (19/19 total project tests passing).
+---
+
+## Getting Started
+
+### 1. Requirements
+- Python 3.10+
+- Django 5+
+- Pandas, NumPy, Scikit-learn
+
+### 2. Run Pipeline & Ingest Data into Database
+Run the complete collection, matching, comparison, and database synchronization pipeline:
+```bash
+python main.py
+```
+Or execute the Django synchronization command directly:
+```bash
+python manage.py sync_pipeline
+```
+
+### 3. Launch the Django Web Application
+Start the local development server:
+```bash
+python manage.py runserver
+```
+or via the main runner:
+```bash
+python main.py --serve
+```
+Open your browser at: **`http://127.0.0.1:8000/`**
+
+### 4. Access Django Admin
+To access the administrative panel at `http://127.0.0.1:8000/admin/`, create a superuser:
+```bash
+python manage.py createsuperuser
+```
+
+---
+
+## Running Automated Tests
+
+Run the complete test suite (37 passing tests across all phases):
+```bash
+# 1. Run Django Web & Database Integration Tests (18 tests)
+python manage.py test
+
+# 2. Run Data Pipeline, Collection, and Matching Tests (19 tests)
+python -m unittest tests.test_pipeline tests.test_collection tests.test_matching
+```
+All tests pass cleanly with zero warnings or errors.

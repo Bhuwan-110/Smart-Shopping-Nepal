@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Authorized Shopping Stores & Platforms | SmartShopping Nepal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="mb-4">
+        <h2 class="fw-bold"><i class="fa-solid fa-store text-primary me-2"></i>Supported Online Stores & Platforms</h2>
+        <p class="text-muted">Transparency and legal compliance registry. Only platforms with authorized access, verified partner feeds, or approved manual imports are supported.</p>
+    </div>
+
+    <div class="row g-4">
+        {% for store in stores %}
+        <div class="col-md-6">
+            <div class="card p-4 border-0 shadow-sm rounded-3 bg-white h-100">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h4 class="fw-bold mb-1">{{ store.name }}</h4>
+                        {% if store.base_url %}
+                        <a href="{{ store.base_url }}" target="_blank" class="small text-decoration-none text-muted">
+                            <i class="fa-solid fa-globe me-1"></i> {{ store.base_url }}
+                        </a>
+                        {% endif %}
+                    </div>
+                    <span class="badge {% if 'Approved' in store.permission_status or 'Active' in store.permission_status or 'Verified' in store.permission_status %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                        {{ store.permission_status|default:"Verified Feed" }}
+                    </span>
+                </div>
+
+                <div class="p-3 bg-light rounded-3 mb-3 small">
+                    <div class="row g-2">
+                        <div class="col-sm-5 fw-bold text-muted">Data Access Method:</div>
+                        <div class="col-sm-7">{{ store.data_access_method|default:"Standardized Manual/Partner Feed" }}</div>
+                        <div class="col-sm-5 fw-bold text-muted">API / Feed Status:</div>
+                        <div class="col-sm-7">{{ store.api_or_feed_status|default:"Active & Operational" }}</div>
+                        <div class="col-sm-5 fw-bold text-muted">Active Listings:</div>
+                        <div class="col-sm-7"><span class="badge bg-secondary">{{ store.active_listings_count }} Listings</span></div>
+                    </div>
+                </div>
+
+                {% if store.notes %}
+                <div class="small text-muted mb-3">
+                    <strong>Compliance Notes:</strong> {{ store.notes }}
+                </div>
+                {% endif %}
+
+                <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                    <span class="small text-muted"><i class="fa-solid fa-shield-halved text-success me-1"></i> Data Governance Enforced</span>
+                    <a href="{% url 'shopping:store_detail' store.slug %}" class="btn btn-outline-primary btn-sm">View Store Products &rarr;</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

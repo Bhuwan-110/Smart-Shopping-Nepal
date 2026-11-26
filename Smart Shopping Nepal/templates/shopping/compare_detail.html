@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Compare {{ product.name }} Prices | SmartShopping Nepal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="{% url 'shopping:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'shopping:compare_list' %}">Compare</a></li>
+            <li class="breadcrumb-item active">{{ product.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="card border-0 shadow-sm rounded-3 bg-white p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+                <span class="badge bg-primary-subtle text-primary">{{ product.brand }}</span>
+                <span class="badge bg-light text-dark border">{{ product.category }}</span>
+                <h2 class="fw-bold mt-2 mb-1">{{ product.name }}</h2>
+                <div class="text-muted small">Canonical Product Key: <code>{{ product.canonical_product_key }}</code></div>
+            </div>
+            <a href="{% url 'shopping:product_detail' product.pk %}" class="btn btn-outline-secondary btn-sm">Product Overview</a>
+        </div>
+
+        <!-- Savings Card -->
+        {% if summary.saving_npr > 0 %}
+        <div class="alert alert-success d-flex align-items-center justify-content-between mb-4 shadow-sm border-0">
+            <div>
+                <i class="fa-solid fa-circle-check fs-4 me-2"></i>
+                <strong>Best Deal:</strong> Buy from <span class="badge bg-success fs-6">{{ summary.cheapest_store }}</span> to save <strong>NPR {{ summary.saving_npr|floatformat:0|intcomma }}</strong> ({{ summary.saving_percent }}% discount vs highest store).
+            </div>
+            <span class="price-tag text-success">NPR {{ summary.lowest_price|floatformat:0|intcomma }}</span>
+        </div>
+        {% endif %}
+
+        <!-- Comparison Table -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle comparison-table mb-0">
+                <thead>
+                    <tr>
+                        <th>Online Store</th>
+                        <th>Item Price</th>
+                        <th>Delivery Fee</th>
+                        <th>Total Landed Cost</th>
+                        <th>User Rating</th>
+                        <th>Availability</th>
+                        <th>Visit Store</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in listings %}
+                    <tr class="{% if forloop.first and summary.saving_npr > 0 %}cheapest-row{% endif %}">
+                        <td>
+                            <strong class="fs-6">{{ item.store.name }}</strong>
+                            {% if forloop.first and summary.saving_npr > 0 %}
+                            <span class="badge bg-success ms-2"><i class="fa-solid fa-tag me-1"></i>Lowest Price</span>
+                            {% endif %}
+                            <div class="small text-muted">Platform: {{ item.store.get_permission_status_display|default:"Verified" }}</div>
+                        </td>
+                        <td>NPR {{ item.price_npr|floatformat:0|intcomma }}</td>
+                        <td>
+                            {% if item.is_shipping_known %}
+                                {% if item.shipping_cost_npr == 0 %}
+                                <span class="badge bg-success-subtle text-success">Free Delivery</span>
+                                {% else %}
+                                NPR {{ item.shipping_cost_npr|floatformat:0|intcomma }}
+                                {% endif %}
+                            {% else %}
+                            <span class="badge bg-warning-subtle text-warning">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <strong class="fs-5 text-dark">NPR {{ item.total_price_npr|floatformat:0|intcomma }}</strong>
+                        </td>
+                        <td>
+                            {% if item.rating %}
+                            <span class="badge bg-warning text-dark"><i class="fa-solid fa-star me-1"></i>{{ item.rating }}</span>
+                            <span class="small text-muted">({{ item.review_count|default:"0" }})</span>
+                            {% else %}
+                            <span class="text-muted small">—</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.availability_status == 'in_stock' %}
+                            <span class="badge bg-success-subtle text-success">In Stock</span>
+                            {% else %}
+                            <span class="badge bg-danger-subtle text-danger">{{ item.availability_status|title }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ item.product_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm px-3">
+                                Buy on {{ item.store.name }} <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

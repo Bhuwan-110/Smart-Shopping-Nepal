@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}All Product Categories | SmartShopping Nepal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="mb-4">
+        <h2 class="fw-bold"><i class="fa-solid fa-layer-group text-primary me-2"></i>Product Categories</h2>
+        <p class="text-muted">Browse all electronics, gadgets, and consumer goods across Nepal online platforms.</p>
+    </div>
+
+    <div class="row g-4">
+        {% for cat in categories %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card p-4 border-0 shadow-sm rounded-3 bg-white h-100">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="p-3 bg-primary-subtle text-primary rounded-3 me-3 fs-3">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-0">
+                            <a href="{% url 'shopping:category_detail' cat.category %}" class="text-dark text-decoration-none">
+                                {{ cat.category }}
+                            </a>
+                        </h5>
+                        <span class="badge bg-light text-muted border">{{ cat.product_count }} Products Listed</span>
+                    </div>
+                </div>
+
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                    <span class="small text-muted">
+                        {% if cat.min_price %}
+                        From NPR {{ cat.min_price|floatformat:0|intcomma }}
+                        {% endif %}
+                    </span>
+                    <a href="{% url 'shopping:category_detail' cat.category %}" class="btn btn-outline-primary btn-sm">
+                        Explore Category &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

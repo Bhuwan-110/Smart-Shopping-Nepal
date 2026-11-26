@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Smart Recommendations & Deals | SmartShopping Nepal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="mb-4">
+        <h2 class="fw-bold"><i class="fa-solid fa-wand-magic-sparkles text-primary me-2"></i>Product Recommendations & Deals</h2>
+        <p class="text-muted">Data-driven recommendations computed via Scikit-Learn TF-IDF similarity algorithms.</p>
+    </div>
+
+    <!-- Multi-Store Price Advantage Deals -->
+    <div class="card border-0 shadow-sm rounded-3 bg-white p-4 mb-4">
+        <h4 class="fw-bold mb-3"><i class="fa-solid fa-tag text-success me-2"></i>Top Comparative Savings in Nepal</h4>
+        <div class="row g-4">
+            {% for deal in deals %}
+            {% with summary=deal.get_price_summary %}
+            {% if summary.saving_npr > 0 %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 product-card p-3 border">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="badge bg-light text-dark border">{{ deal.category }}</span>
+                        <span class="savings-pill">Save NPR {{ summary.saving_npr|floatformat:0|intcomma }}</span>
+                    </div>
+                    <h5 class="fw-bold mb-1">
+                        <a href="{% url 'shopping:product_detail' deal.pk %}" class="text-dark text-decoration-none">
+                            {{ deal.brand }} {{ deal.name }}
+                        </a>
+                    </h5>
+                    <div class="text-muted small mb-3">Cheapest at: <strong class="text-success">{{ summary.cheapest_store }}</strong></div>
+                    <div class="p-2 bg-light rounded d-flex justify-content-between align-items-baseline mt-auto">
+                        <span class="small text-muted">Best Price:</span>
+                        <span class="price-tag">NPR {{ summary.lowest_price|floatformat:0|intcomma }}</span>
+                    </div>
+                    <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center">
+                        <span class="small text-muted">{{ summary.store_count }} Stores Compared</span>
+                        <a href="{% url 'shopping:compare_detail' deal.canonical_product_key %}" class="btn btn-primary btn-sm">Compare</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recommendation Mappings Table -->
+    {% if rec_mappings %}
+    <div class="card border-0 shadow-sm rounded-3 bg-white p-4 mb-4">
+        <h4 class="fw-bold mb-3"><i class="fa-solid fa-brain text-info me-2"></i>Content-Based Similarity Models (TF-IDF)</h4>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Source Product</th>
+                        <th>Recommended Alternative</th>
+                        <th>Algorithm</th>
+                        <th>Cosine Similarity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rec in rec_mappings %}
+                    <tr>
+                        <td class="fw-bold">{{ rec.source_product.name }} ({{ rec.source_product.brand }})</td>
+                        <td>
+                            <i class="fa-solid fa-arrow-right text-primary me-2"></i>
+                            <strong>{{ rec.recommended_product.name }}</strong> ({{ rec.recommended_product.brand }})
+                        </td>
+                        <td><span class="badge bg-light text-dark border">{{ rec.algorithm_type }}</span></td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="fw-bold text-success me-2">{{ rec.similarity_score|floatformat:2 }}</span>
+                                <div class="progress flex-grow-1" style="height: 6px;">
+                                    <div class="progress-bar bg-success" style="width: {% widthratio rec.similarity_score 1 100 %}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{% url 'shopping:product_detail' rec.recommended_product.pk %}" class="btn btn-outline-primary btn-sm">View Match</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

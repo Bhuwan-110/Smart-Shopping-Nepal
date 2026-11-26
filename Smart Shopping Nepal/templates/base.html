@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart Shopping Nepal | Price Comparison & Deals{% endblock %}</title>
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm py-2">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'shopping:home' %}">
+                <i class="fa-solid fa-tags text-primary me-2 fs-4"></i>
+                <span>Smart<span class="text-primary">Shopping</span> <span class="badge badge-nepal ms-1 fs-6">Nepal</span></span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <form class="d-flex mx-lg-4 my-2 my-lg-0 flex-grow-1" action="{% url 'shopping:search' %}" method="GET">
+                    <div class="input-group">
+                        <input class="form-control" type="search" name="q" placeholder="Search phone, laptop, earbuds in Nepal..." value="{{ request.GET.q }}">
+                        <button class="btn btn-primary px-3" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shopping:compare_list' %}"><i class="fa-solid fa-scale-balanced me-1"></i> Compare</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shopping:categories' %}"><i class="fa-solid fa-list me-1"></i> Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shopping:stores' %}"><i class="fa-solid fa-store me-1"></i> Stores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shopping:recommendations' %}"><i class="fa-solid fa-wand-magic-sparkles me-1"></i> Deals</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shopping:wishlist' %}">
+                                <i class="fa-solid fa-heart text-danger me-1"></i> Wishlist
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown ms-lg-2">
+                            <a class="nav-link dropdown-toggle btn btn-outline-light btn-sm px-2 text-white" href="#" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-user me-1"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow">
+                                <li><a class="dropdown-item" href="{% url 'shopping:wishlist' %}"><i class="fa-solid fa-heart me-2 text-danger"></i> My Wishlist</a></li>
+                                <li><a class="dropdown-item" href="{% url 'shopping:dashboard' %}"><i class="fa-solid fa-chart-line me-2 text-primary"></i> Operations Dashboard</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'shopping:logout' %}"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-outline-light btn-sm me-1" href="{% url 'shopping:login' %}">Sign In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary btn-sm" href="{% url 'shopping:register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Alert Messages -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="py-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-4 mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-5">
+                    <h5 class="text-white fw-bold"><i class="fa-solid fa-tags text-primary me-2"></i>SmartShopping Nepal</h5>
+                    <p class="small text-secondary mb-2">
+                        Nepal's independent product price comparison and smart recommendation platform. 
+                        We track actual landed costs (Product Price + Delivery) across verified online stores.
+                    </p>
+                    <span class="badge bg-secondary">All prices in Nepalese Rupees (NPR)</span>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-1"><a href="{% url 'shopping:compare_list' %}">Price Comparison Table</a></li>
+                        <li class="mb-1"><a href="{% url 'shopping:categories' %}">Browse Categories</a></li>
+                        <li class="mb-1"><a href="{% url 'shopping:stores' %}">Authorized Store Registry</a></li>
+                        <li class="mb-1"><a href="{% url 'shopping:dashboard' %}">Platform Analytics</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Data Governance Policy</h6>
+                    <p class="small text-secondary mb-1">
+                        Data collected strictly via authorized APIs, partner merchant feeds, or manually verified listings. Automated scraping without express permission is prohibited.
+                    </p>
+                    <p class="small text-secondary">&copy; 2026 Smart Shopping Nepal. Built with Django & Python.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

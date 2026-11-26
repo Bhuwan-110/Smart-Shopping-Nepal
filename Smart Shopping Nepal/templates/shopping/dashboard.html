@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Operations & Admin Dashboard | SmartShopping Nepal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="fa-solid fa-chart-line text-primary me-2"></i>Operations & Ingestion Dashboard</h2>
+            <p class="text-muted small mb-0">Catalog metrics, scraping compliance status, and platform audit logs.</p>
+        </div>
+        <div>
+            <a href="/admin/" target="_blank" class="btn btn-dark btn-sm">
+                <i class="fa-solid fa-gear me-1"></i> Open Django Admin
+            </a>
+        </div>
+    </div>
+
+    <!-- Metrics Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+            <div class="card p-3 border-0 shadow-sm rounded-3 bg-white">
+                <div class="small text-muted mb-1">Canonical Products</div>
+                <div class="h3 fw-bold text-primary mb-0">{{ total_products }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="card p-3 border-0 shadow-sm rounded-3 bg-white">
+                <div class="small text-muted mb-1">Total Store Listings</div>
+                <div class="h3 fw-bold text-success mb-0">{{ total_listings }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="card p-3 border-0 shadow-sm rounded-3 bg-white">
+                <div class="small text-muted mb-1">Verified Real Listings</div>
+                <div class="h3 fw-bold text-info mb-0">{{ real_listings_count }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="card p-3 border-0 shadow-sm rounded-3 bg-white">
+                <div class="small text-muted mb-1">Multi-Store Deals</div>
+                <div class="h3 fw-bold text-danger mb-0">{{ multi_store_deals_count }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audit Logs & Categories Distribution -->
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card p-4 border-0 shadow-sm rounded-3 bg-white h-100">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-clipboard-list text-primary me-2"></i>Data Collection & Pipeline Audit Logs</h5>
+                {% if recent_logs %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle small mb-0">
+                        <thead>
+                            <tr>
+                                <th>Source / Job</th>
+                                <th>Status</th>
+                                <th>Attempted</th>
+                                <th>Collected</th>
+                                <th>Failures</th>
+                                <th>Execution Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in recent_logs %}
+                            <tr>
+                                <td><strong>{{ log.data_source }}</strong></td>
+                                <td>
+                                    <span class="badge {% if log.status == 'SUCCESS' %}bg-success{% else %}bg-danger{% endif %}">
+                                        {{ log.status }}
+                                    </span>
+                                </td>
+                                <td>{{ log.records_attempted }}</td>
+                                <td>{{ log.records_collected }}</td>
+                                <td>{{ log.failures_count }}</td>
+                                <td class="text-muted">{{ log.executed_at|date:"Y-m-d H:i:s" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted small">No collection runs logged yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card p-4 border-0 shadow-sm rounded-3 bg-white h-100">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-pie-chart text-primary me-2"></i>Categories Breakdown</h5>
+                <ul class="list-group list-group-flush">
+                    {% for cat in categories_count %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        <span>{{ cat.category }}</span>
+                        <span class="badge bg-primary rounded-pill">{{ cat.count }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

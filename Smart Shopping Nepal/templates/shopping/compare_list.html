@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Compare Product Prices Across Nepal Online Stores | SmartShopping Nepal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="fa-solid fa-scale-balanced text-primary me-2"></i>Multi-Store Price Comparison</h2>
+            <p class="text-muted small mb-0">Real-time landed cost comparison across Daraz Nepal, Hukut Store, Oliz Store, and authorized merchants.</p>
+        </div>
+        <span class="badge bg-primary px-3 py-2 fs-6">{{ total_compared }} Products Compared</span>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 mb-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle comparison-table mb-0">
+                <thead>
+                    <tr>
+                        <th>Product & Category</th>
+                        <th>Cheapest Store</th>
+                        <th>Lowest Total Cost</th>
+                        <th>Highest Price</th>
+                        <th>Potential Savings</th>
+                        <th>Stores Available</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in comparison_data %}
+                    <tr>
+                        <td>
+                            <div class="fw-bold">
+                                <a href="{% url 'shopping:product_detail' row.product.pk %}" class="text-dark text-decoration-none">
+                                    {{ row.product.brand }} {{ row.product.name }}
+                                </a>
+                            </div>
+                            <span class="badge bg-light text-muted border">{{ row.product.category }}</span>
+                        </td>
+                        <td>
+                            {% if row.summary.lowest_price %}
+                            <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">
+                                {{ row.summary.cheapest_store }}
+                            </span>
+                            {% else %}
+                            <span class="text-muted small">No Live Offers</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.summary.lowest_price %}
+                            <strong class="text-success fs-5">NPR {{ row.summary.lowest_price|floatformat:0|intcomma }}</strong>
+                            {% else %}
+                            <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.summary.highest_price and row.summary.saving_npr > 0 %}
+                            <span class="text-muted"><s>NPR {{ row.summary.highest_price|floatformat:0|intcomma }}</s></span>
+                            {% else %}
+                            <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.summary.saving_npr > 0 %}
+                            <span class="savings-pill">
+                                Save NPR {{ row.summary.saving_npr|floatformat:0|intcomma }} ({{ row.summary.saving_percent }}%)
+                            </span>
+                            {% else %}
+                            <span class="text-muted small">Single Store Listing</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary-subtle text-dark">
+                                <i class="fa-solid fa-store me-1"></i> {{ row.summary.store_count }} Store{{ row.summary.store_count|pluralize }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{% url 'shopping:compare_detail' row.product.canonical_product_key %}" class="btn btn-outline-primary btn-sm">
+                                Compare Stores &rarr;
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
